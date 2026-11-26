@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Update with your final Cloudflare Pages or custom domain URL
+Sitemap: https://offgrid-music.pages.dev/sitemap.xml
