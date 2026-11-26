@@ -335,21 +335,26 @@ function initCopyEmail() {
   });
 }
 
-/* 8. Viewport-Aware Video Playback & Reduced Motion Handling */
+/* 8. Viewport-Aware Video Playback, Reduced Motion & Lazy Media Handling */
 function initVideoPlayback() {
   const videos = Array.from(document.querySelectorAll(".widget-video-wrap video"));
   if (!videos.length) return;
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReduced) {
+  const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const syncReducedMotion = (prefersReduced) => {
     videos.forEach((video) => {
-      video.removeAttribute("autoplay");
-      video.pause();
+      if (prefersReduced) {
+        video.removeAttribute("autoplay");
+        video.pause();
+      }
     });
-    return;
-  }
+  };
+  syncReducedMotion(reducedMotionQuery.matches);
+  reducedMotionQuery.addEventListener("change", (event) => {
+    syncReducedMotion(event.matches);
+  });
 
-  if (!("IntersectionObserver" in window)) return;
+  if (reducedMotionQuery.matches || !("IntersectionObserver" in window)) return;
 
   const userPaused = new WeakSet();
   videos.forEach((video) => {
@@ -369,7 +374,7 @@ function initVideoPlayback() {
       for (const entry of entries) {
         const video = entry.target;
         if (entry.isIntersecting) {
-          if (!userPaused.has(video) && video.paused) {
+          if (!reducedMotionQuery.matches && !userPaused.has(video) && video.paused) {
             delete video.dataset.autoPaused;
             video.play().catch(() => {});
           }

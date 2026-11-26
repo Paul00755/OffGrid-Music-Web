@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OffGrid Music — Offline Android Music Player with Synced Lyrics &amp; 15 UI Layouts</title>
-  <meta name="description" content="OffGrid Music is an ad-free, offline-first Android music player with 15 customizable UI layouts, Live Synced Lyrics Home Screen Widgets (English &amp; Tamil), 5-Band EQ, gapless crossfade, and optional cloud backup. Download the latest APK free.">
+  <title>OffGrid Music — Offline Android Music Player &amp; Synced Lyrics</title>
+  <meta name="description" content="Ad-free, offline-first Android music player with 15 UI layouts, Live Synced .LRC Lyrics Widgets, 5-band EQ, crossfade, and OffGrid Jam. Free open-source APK.">
   <meta name="keywords" content="OffGrid Music, offline music player, Android offline music player, music player with synced lyrics, live lyrics widget Android, local music player APK, FLAC MP3 player Android, ad-free music player, LRC lyrics player, 5 band equalizer music player">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#05060a">
+  <meta name="author" content="Paul00755">
+  <meta name="application-name" content="OffGrid Music">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#05060a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
   <!-- Update canonical & og:url once your Cloudflare Pages / custom domain is live -->
   <link rel="canonical" href="https://offgrid-music-web.pages.dev/">
   <link rel="icon" type="image/png" href="assets/brand/favicon.png">
@@ -15,19 +18,23 @@
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="OffGrid Music">
-  <meta property="og:title" content="OffGrid Music — Your Music. Your Way.">
+  <meta property="og:title" content="OffGrid Music — Offline Android Music Player &amp; Synced Lyrics">
   <meta property="og:description" content="Ad-free, offline-first Android music player with 15 UI layouts, Live Synced Lyrics Widgets, 5-Band EQ, Wrapped Stories, and OffGrid Jam.">
   <meta property="og:image" content="https://offgrid-music-web.pages.dev/assets/brand/og-cover.jpg">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="OffGrid Music offline Android music player showcase featuring 15 UI layouts, live synced lyrics, and 5-band equalizer">
   <meta property="og:url" content="https://offgrid-music-web.pages.dev/">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="OffGrid Music — Offline Android Music Player with Synced Lyrics">
+  <meta name="twitter:title" content="OffGrid Music — Offline Android Music Player &amp; Synced Lyrics">
   <meta name="twitter:description" content="15 customizable layouts, Live Lyrics Widget, 5-Band EQ, 0–12s crossfade, and 100% ad-free offline playback.">
   <meta name="twitter:image" content="https://offgrid-music-web.pages.dev/assets/brand/og-cover.jpg">
+  <meta name="twitter:image:alt" content="OffGrid Music offline Android music player showcase">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,22 +45,57 @@
   <link rel="preload" as="image" href="assets/screenshots/home-hero-spotlight.webp" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
 
-  <!-- Structured Data: SoftwareApplication + Full FAQPage (SEO Rich Results) -->
+  <!-- Structured Data: WebSite + SoftwareApplication + Complete 14-Question FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        "@id": "https://offgrid-music-web.pages.dev/#website",
+        "url": "https://offgrid-music-web.pages.dev/",
+        "name": "OffGrid Music",
+        "description": "Official showcase and APK download portal for OffGrid Music, an offline-first, ad-free Android music player.",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://offgrid-music-web.pages.dev/#webpage",
+        "url": "https://offgrid-music-web.pages.dev/",
+        "name": "OffGrid Music — Offline Android Music Player & Synced Lyrics",
+        "isPartOf": { "@id": "https://offgrid-music-web.pages.dev/#website" },
+        "primaryImageOfPage": "https://offgrid-music-web.pages.dev/assets/brand/og-cover.jpg",
+        "inLanguage": "en"
+      },
+      {
         "@type": "SoftwareApplication",
         "name": "OffGrid Music",
         "alternateName": "OffGrid Music Player",
         "applicationCategory": "MusicApplication",
+        "applicationSubCategory": "Offline Music Player",
         "operatingSystem": "Android 7.0+",
+        "isAccessibleForFree": true,
         "description": "An ad-free, offline-first Android music player built with Kotlin and Jetpack Compose featuring 15 customizable UI layouts, Live Synced .lrc Lyrics Home Screen Widgets, 5-Band Equalizer, gapless crossfade, OffGrid Jam, and optional encrypted cloud backup.",
         "url": "https://offgrid-music-web.pages.dev/",
         "downloadUrl": "https://github.com/Paul00755/OffGrid-Music/releases/latest",
+        "license": "https://github.com/Paul00755/OffGrid-Music",
         "softwareRequirements": "Android 7.0 or higher",
         "image": "https://offgrid-music-web.pages.dev/assets/brand/og-cover.jpg",
+        "screenshot": [
+          "https://offgrid-music-web.pages.dev/assets/screenshots/home-hero-spotlight.webp",
+          "https://offgrid-music-web.pages.dev/assets/screenshots/np-modern-bento.webp",
+          "https://offgrid-music-web.pages.dev/assets/screenshots/lyrics-fluid-glow.webp",
+          "https://offgrid-music-web.pages.dev/assets/screenshots/playlists-bento-grid.webp"
+        ],
+        "featureList": [
+          "15 Customizable UI Layouts across Home, Now Playing, Lyrics, and Playlists",
+          "5 Adaptive Android Home Screen Widgets including Live Synced .LRC Lyrics Widget",
+          "0-12s Equal-Power Crossfade, Gapless Playback, and 5-Band Graphic Equalizer",
+          "OffGrid Jam real-time synced listening rooms for 2 to 10 friends",
+          "6-Slide Calendar Wrapped Stories and Real-Time Listening Insights",
+          "12 Supported Local Audio Formats including FLAC, MP3, OPUS, WAV, M4A, AAC, OGG, and AIFF",
+          "Optional Encrypted Cloud Backup via Google Sign-In or Email/Password"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -73,23 +115,39 @@
             "name": "The app is not published on the Google Play Store. Is it really safe to use?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. OffGrid Music is 100% open source on GitHub, contains zero ads or tracking SDKs, and is built and released transparently via GitHub Releases so anyone can inspect the code before installing."
+              "text": "Yes. OffGrid Music is completely open source on GitHub with zero ads, zero trackers, and zero hidden permissions. Every APK is built and published transparently through GitHub Releases so anyone can inspect the source code and verify every build."
             }
           },
           {
             "@type": "Question",
-            "name": "Does OffGrid Music work completely offline?",
+            "name": "In what ways can I sign in to OffGrid Music?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. OffGrid Music is offline-first and plays all 12 supported local audio formats directly from your Android storage with no internet connection and no account required."
+              "text": "You can sign in with Google Sign-In or create an Email and Password account, or skip sign-in completely and use OffGrid Music 100% locally with no account required."
             }
           },
           {
             "@type": "Question",
-            "name": "Will installing a new app update delete my playlists, favorites, or settings?",
+            "name": "If I use Google Sign-In, will my data get stolen?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. You can install any newer OffGrid Music APK directly over your existing installation without uninstalling, keeping your playlists, favorites, synced lyrics offsets, listening stats, and custom layouts intact."
+              "text": "No. Google Sign-In is used solely to authenticate your optional cloud backup account. OffGrid Music never accesses your Gmail, Drive, or contacts, never sells data, and never uploads your local audio files."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What data is backed up when I sign in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your Favorites, Custom Playlists, Smart Playlists, Listening Statistics and History, Synced Lyrics and Per-Song Timing Offsets, Folder Include/Exclude Rules, Custom Home Feed Configurations, and App Preferences (theme and audio EQ). Your actual MP3/FLAC music files and any personal Gemini API key are never uploaded."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where is my backed-up data stored?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Backups are stored as an encrypted cloud snapshot tied strictly to your authenticated Firebase account. You can trigger Backup Now, Sync / Restore Now, or schedule automatic Daily, Weekly, or Monthly backups, or export local JSON backups anytime."
             }
           },
           {
@@ -97,7 +155,7 @@
             "name": "How does Off-Grid Jam work?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "OffGrid Jam lets 2 to 10 friends listen in real-time sync by joining a room via Invite Code, Invite Link, or QR Code Scanner, and lets you share approved local songs up to 25 MB directly device-to-device."
+              "text": "OffGrid Jam lets 2 to 10 friends listen in real-time sync. Host a room and share the Invite Code, Invite Link, or QR Code. Participants stay synced to playback, and approved local songs (up to 25 MB) can be shared directly device-to-device without uploading your library to cloud storage."
             }
           },
           {
@@ -105,7 +163,63 @@
             "name": "Is my Gemini API key safe?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Optional Gemini AI lyrics translation and transcription are off by default. If you add your own Gemini API key, it is stored encrypted locally on your device and is never uploaded to cloud backups."
+              "text": "Yes. AI Lyrics Studio is turned off by default. If you choose to connect your own Gemini API key, it is stored encrypted strictly on your device and is excluded from all cloud backups and diagnostics exports."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I get and add a Gemini API key for lyrics translation or transcription?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Create a free API key in Google AI Studio, open OffGrid Music Settings -> Lyrics & AI Studio, enable Optional Gemini AI Lyrics Studio, and paste your key. Once active, you can translate synced lyrics into English, Tamil/Tanglish, Hindi, or Malayalam, or transcribe audio into timestamped .lrc lyrics with one-tap Undo."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "I'm facing API key errors — what should I do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Double-check that your key has no extra spaces, has not hit its free-tier rate limit in Google AI Studio, and that your device has an active internet connection when running AI translation or transcription. If the issue persists, generate a fresh key or email offgridmusicsupport@gmail.com with a screenshot."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is Smart Shuffle (Smart Queue) and how does it work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Smart Shuffle and Sonic DNA Radio analyze your library and currently playing track's vibe to build fresh, balanced queues without repeating the same handful of songs back-to-back, while keeping full 1:1 drag-and-drop control over your Up Next queue."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does OffGrid Music work completely offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Playing local music across 12 formats including MP3, FLAC, OPUS, WAV, M4A, and AIFF, synced .lrc lyrics, 5-Band EQ, Wrapped Stats, Playlists, and Home Screen Widgets all work 100% offline."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are some of my local audio files not appearing in my library?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check two settings in Library & Scanner: (1) Short Audio Clip Filter (set between 0-180s to hide ringtones/voice notes — lower it if short tracks are filtered out), and (2) Folder Include / Exclude Rules to ensure the folder containing your songs is included, then tap refresh or run a scan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I customize the Home Feed, Bottom Bar, or Now Playing screen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open Settings -> Screen Layout Studio to preview and switch between 4 Now Playing, 4 Home, 4 Playlists, and 3 Lyrics UI layouts (including Combo View). In Appearance & Home Feed settings, you can also show/hide/reorder Home sections, rearrange the 5 bottom bar tabs, and pick from 7 waveform styles and 4 mini-player styles."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will installing a new app update delete my playlists, favorites, or settings?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Install any newer OffGrid Music APK directly over your existing app without uninstalling first. All of your playlists, favorites, synced lyrics offsets, custom cover art, listening stats, and settings stay right where you left them."
             }
           }
         ]
@@ -576,7 +690,7 @@
               <span class="widget-pill">LIVE CAPTURE</span>
             </div>
             <div class="widget-video-wrap">
-              <video autoplay loop muted playsinline controls width="640" height="352" preload="metadata" poster="assets/screenshots/lyrics-fluid-glow.webp" aria-label="OffGrid Music Live Lyrics Widget playing English synced lyrics">
+              <video autoplay loop muted playsinline controls loading="lazy" width="640" height="352" preload="metadata" poster="assets/screenshots/lyrics-fluid-glow.webp" aria-label="OffGrid Music Live Lyrics Widget playing English synced lyrics">
                 <source src="assets/videos/lyric-widget-english.mp4" type="video/mp4">
               </video>
             </div>
@@ -589,7 +703,7 @@
               <span class="widget-pill">MULTI-LANGUAGE</span>
             </div>
             <div class="widget-video-wrap">
-              <video autoplay loop muted playsinline controls width="656" height="352" preload="metadata" poster="assets/screenshots/widget-live-lyrics-tamil.webp" aria-label="OffGrid Music Live Lyrics Widget playing Tamil synced lyrics">
+              <video autoplay loop muted playsinline controls loading="lazy" width="656" height="352" preload="metadata" poster="assets/screenshots/widget-live-lyrics-tamil.webp" aria-label="OffGrid Music Live Lyrics Widget playing Tamil synced lyrics">
                 <source src="assets/videos/lyric-widget-tamil.mp4" type="video/mp4">
               </video>
             </div>
