@@ -26,7 +26,7 @@ npx serve .
 
 ## Before You Go Live (1 Quick Edit)
 
-Once Cloudflare Pages assigns your live `*.pages.dev` or custom domain URL, replace `https://offgrid-music.pages.dev` in `index.html` (`canonical`, `og:url`, `og:image`), `robots.txt`, and `sitemap.xml`.
+Once Cloudflare Pages assigns your live `*.pages.dev` or custom domain URL, replace `https://offgrid-music-web.pages.dev` in `index.html` (`canonical`, `og:url`, `og:image`), `robots.txt`, and `sitemap.xml`.
 
 ## Deploying to Cloudflare Pages from a Private GitHub Repo
 
