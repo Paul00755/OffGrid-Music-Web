@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- Preload Hero Image for Core Web Vitals (LCP) -->
-  <link rel="preload" as="image" href="assets/screenshots/np-modern-bento.webp">
+  <link rel="preload" as="image" href="assets/screenshots/home-hero-spotlight.webp" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- Structured Data: SoftwareApplication + Full FAQPage (SEO Rich Results) -->
@@ -136,11 +136,11 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="theme-toggle" data-theme-toggle aria-label="Switch between dark and light mode" title="Toggle Dark / Light Mode">
-          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch between dark and light mode" title="Toggle Dark / Light Mode">
+          <svg class="icon-moon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
-          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="icon-sun" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -161,8 +161,8 @@
         <a href="https://github.com/Paul00755/OffGrid-Music/releases/latest" data-apk-download target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           Download APK
         </a>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="7" x2="21" y2="7"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="17" x2="21" y2="17"></line>
@@ -230,23 +230,29 @@
           <span>Zero Subscriptions</span>
         </div>
 
-        <!-- 3-Phone Parallax Stage -->
+        <!-- 4-Phone Showcase Stage: Home, Now Playing, Lyrics, Playlist -->
         <div class="hero-stage">
-          <div class="phone-frame hero-phone-side hero-phone-left">
+          <div class="phone-frame hero-phone hero-phone-outer-left">
             <div class="phone-screen">
-              <img src="assets/screenshots/np-vinyl-turntable.webp" alt="OffGrid Music Vinyl Turntable Now Playing screen" width="430" height="960">
+              <img src="assets/screenshots/home-hero-spotlight.webp" alt="OffGrid Music Hero Spotlight Home screen" width="860" height="1921" fetchpriority="high" decoding="async">
             </div>
           </div>
 
-          <div class="phone-frame hero-phone-main">
+          <div class="phone-frame hero-phone hero-phone-inner-left">
             <div class="phone-screen">
-              <img src="assets/screenshots/np-modern-bento.webp" alt="OffGrid Music Modern Bento Now Playing screen" width="430" height="960" fetchpriority="high">
+              <img src="assets/screenshots/np-modern-bento.webp" alt="OffGrid Music Modern Bento Now Playing screen" width="860" height="1921" fetchpriority="high" decoding="async">
             </div>
           </div>
 
-          <div class="phone-frame hero-phone-side hero-phone-right">
+          <div class="phone-frame hero-phone hero-phone-inner-right">
             <div class="phone-screen">
-              <img src="assets/screenshots/home-hero-spotlight.webp" alt="OffGrid Music Hero Spotlight Home screen" width="430" height="960">
+              <img src="assets/screenshots/lyrics-fluid-glow.webp" alt="OffGrid Music Fluid Glow Synced Lyrics screen" width="860" height="1921" decoding="async">
+            </div>
+          </div>
+
+          <div class="phone-frame hero-phone hero-phone-outer-right">
+            <div class="phone-screen">
+              <img src="assets/screenshots/playlists-bento-grid.webp" alt="OffGrid Music Bento Collections Playlists screen" width="739" height="2000" decoding="async">
             </div>
           </div>
         </div>
@@ -270,7 +276,7 @@
               <p>Mix and match 4 Now Playing, 4 Home, 4 Playlists, and 3 Lyrics UI screens with real-time live previews and Combo View before you apply—using your currently playing song and artwork.</p>
             </div>
             <div class="bento-media-stage">
-              <img src="assets/screenshots/feature-layout-studio.webp" alt="OffGrid Music Screen Layout Studio Combo View showing live Espresso preview" loading="lazy">
+              <img src="assets/screenshots/feature-layout-studio.webp" alt="OffGrid Music Screen Layout Studio Combo View showing live Espresso preview" width="860" height="1921" loading="lazy" decoding="async">
             </div>
           </article>
 
@@ -281,7 +287,7 @@
               <p>Watch synchronized lyrics scroll right on your Android home screen across English, Tamil, Hindi, and more—complete with playback controls and seek bar.</p>
             </div>
             <div class="bento-media-stage">
-              <img src="assets/screenshots/widget-live-lyrics-tamil.webp" alt="OffGrid Music Live Lyrics Widget showing Tamil synced lyrics" loading="lazy">
+              <img src="assets/screenshots/widget-live-lyrics-tamil.webp" alt="OffGrid Music Live Lyrics Widget showing Tamil synced lyrics" width="860" height="468" loading="lazy" decoding="async">
             </div>
           </article>
 
@@ -328,36 +334,36 @@
     <section class="ui-studio-section" id="ui-studio">
       <div class="container">
         <div class="ui-category-bar" role="tablist" aria-label="UI Layout Categories">
-          <button class="cat-btn active" role="tab" aria-selected="true" data-cat="nowplaying">Now Playing (4)</button>
-          <button class="cat-btn" role="tab" aria-selected="false" data-cat="home">Home Screens (4)</button>
-          <button class="cat-btn" role="tab" aria-selected="false" data-cat="lyrics">Lyrics UI (3)</button>
-          <button class="cat-btn" role="tab" aria-selected="false" data-cat="playlists">Playlists UI (4)</button>
+          <button type="button" class="cat-btn active" role="tab" aria-selected="true" tabindex="0" data-cat="nowplaying">Now Playing (4)</button>
+          <button type="button" class="cat-btn" role="tab" aria-selected="false" tabindex="-1" data-cat="home">Home Screens (4)</button>
+          <button type="button" class="cat-btn" role="tab" aria-selected="false" tabindex="-1" data-cat="lyrics">Lyrics UI (3)</button>
+          <button type="button" class="cat-btn" role="tab" aria-selected="false" tabindex="-1" data-cat="playlists">Playlists UI (4)</button>
         </div>
 
         <div class="studio-grid">
           <!-- Phone Preview Bezel -->
-          <div class="studio-phone-col">
+          <div class="studio-phone-col reveal-up">
             <div class="phone-frame studio-phone">
               <div class="studio-screen-stack">
                 <!-- 4 Now Playing -->
-                <img class="studio-slide-img active" data-layout="np-modern-bento" src="assets/screenshots/np-modern-bento.webp" alt="Now Playing: Modern Bento layout">
-                <img class="studio-slide-img" data-layout="np-vinyl-turntable" src="assets/screenshots/np-vinyl-turntable.webp" alt="Now Playing: Vinyl Turntable layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="np-minimalist-glass" src="assets/screenshots/np-minimalist-glass.webp" alt="Now Playing: Minimalist Glass layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="np-neon-studio" src="assets/screenshots/np-neon-studio.webp" alt="Now Playing: Neon Studio layout" loading="lazy">
+                <img class="studio-slide-img active" data-layout="np-modern-bento" src="assets/screenshots/np-modern-bento.webp" alt="Now Playing: Modern Bento layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="np-vinyl-turntable" src="assets/screenshots/np-vinyl-turntable.webp" alt="Now Playing: Vinyl Turntable layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="np-minimalist-glass" src="assets/screenshots/np-minimalist-glass.webp" alt="Now Playing: Minimalist Glass layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="np-neon-studio" src="assets/screenshots/np-neon-studio.webp" alt="Now Playing: Neon Studio layout" width="860" height="1921" loading="lazy" decoding="async">
                 <!-- 4 Home -->
-                <img class="studio-slide-img" data-layout="home-hero-spotlight" src="assets/screenshots/home-hero-spotlight.webp" alt="Home Screen: Hero Spotlight layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="home-studio-deck" src="assets/screenshots/home-studio-deck.webp" alt="Home Screen: Studio Deck layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="home-minimal-stream" src="assets/screenshots/home-minimal-stream.webp" alt="Home Screen: Minimal Stream layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="home-bento-mosaic" src="assets/screenshots/home-bento-mosaic.webp" alt="Home Screen: Bento Mosaic layout" loading="lazy">
+                <img class="studio-slide-img" data-layout="home-hero-spotlight" src="assets/screenshots/home-hero-spotlight.webp" alt="Home Screen: Hero Spotlight layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="home-studio-deck" src="assets/screenshots/home-studio-deck.webp" alt="Home Screen: Studio Deck layout" width="825" height="2000" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="home-minimal-stream" src="assets/screenshots/home-minimal-stream.webp" alt="Home Screen: Minimal Stream layout" width="750" height="2000" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="home-bento-mosaic" src="assets/screenshots/home-bento-mosaic.webp" alt="Home Screen: Bento Mosaic layout" width="746" height="2000" loading="lazy" decoding="async">
                 <!-- 3 Lyrics -->
-                <img class="studio-slide-img" data-layout="lyrics-studio-timeline" src="assets/screenshots/lyrics-studio-timeline.webp" alt="Lyrics UI: Studio Timeline layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="lyrics-classic-bento" src="assets/screenshots/lyrics-classic-bento.webp" alt="Lyrics UI: Classic Bento layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="lyrics-fluid-glow" src="assets/screenshots/lyrics-fluid-glow.webp" alt="Lyrics UI: Fluid Glow layout" loading="lazy">
+                <img class="studio-slide-img" data-layout="lyrics-studio-timeline" src="assets/screenshots/lyrics-studio-timeline.webp" alt="Lyrics UI: Studio Timeline layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="lyrics-classic-bento" src="assets/screenshots/lyrics-classic-bento.webp" alt="Lyrics UI: Classic Bento layout" width="860" height="1921" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="lyrics-fluid-glow" src="assets/screenshots/lyrics-fluid-glow.webp" alt="Lyrics UI: Fluid Glow layout" width="860" height="1921" loading="lazy" decoding="async">
                 <!-- 4 Playlists -->
-                <img class="studio-slide-img" data-layout="playlists-bento-grid" src="assets/screenshots/playlists-bento-grid.webp" alt="Playlists UI: Bento Grid layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="playlists-magazine-hero" src="assets/screenshots/playlists-magazine-hero.webp" alt="Playlists UI: Magazine Hero layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="playlists-compact-list" src="assets/screenshots/playlists-compact-list.webp" alt="Playlists UI: Compact List layout" loading="lazy">
-                <img class="studio-slide-img" data-layout="playlists-neon-deck" src="assets/screenshots/playlists-neon-deck.webp" alt="Playlists UI: Neon Deck layout" loading="lazy">
+                <img class="studio-slide-img" data-layout="playlists-bento-grid" src="assets/screenshots/playlists-bento-grid.webp" alt="Playlists UI: Bento Grid layout" width="739" height="2000" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="playlists-magazine-hero" src="assets/screenshots/playlists-magazine-hero.webp" alt="Playlists UI: Magazine Hero layout" width="689" height="2000" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="playlists-compact-list" src="assets/screenshots/playlists-compact-list.webp" alt="Playlists UI: Compact List layout" width="860" height="1585" loading="lazy" decoding="async">
+                <img class="studio-slide-img" data-layout="playlists-neon-deck" src="assets/screenshots/playlists-neon-deck.webp" alt="Playlists UI: Neon Deck layout" width="730" height="2000" loading="lazy" decoding="async">
               </div>
             </div>
             <div class="studio-caption-bar">
@@ -367,7 +373,7 @@
           </div>
 
           <!-- Filtered Option Cards (Shows ONLY 4, 4, 3, or 4 cards for active tab) -->
-          <div>
+          <div class="reveal-up">
             <div class="studio-steps">
               <!-- NOW PLAYING (4) -->
               <div class="studio-step active" data-layout="np-modern-bento" data-cat-key="nowplaying" data-category="Now Playing · 1 / 4" data-title="Modern Bento">
@@ -511,7 +517,7 @@
 
             <div class="studio-cat-footer">
               <span class="mono" id="studio-cat-count">Showing Now Playing (4 layouts)</span>
-              <button class="btn btn-ghost" id="studio-next-cat" data-next-cat="home">Next: Home Screens →</button>
+              <button type="button" class="btn btn-ghost" id="studio-next-cat" data-next-cat="home">Next: Home Screens →</button>
             </div>
           </div>
         </div>
@@ -525,7 +531,7 @@
               <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.94rem;">Switch between Dark, Light, Pure AMOLED Black, or System mode. Toggle Dynamic Artwork Theming, Dark Colors / Palette Lite, ambient Gradients, and translucent Glass Effects independently.</p>
             </div>
             <div class="stage-img">
-              <img src="assets/screenshots/feature-themes.webp" alt="OffGrid Music Theme, Display Mode, and Accent Color Palette settings" loading="lazy">
+              <img src="assets/screenshots/feature-themes.webp" alt="OffGrid Music Theme, Display Mode, and Accent Color Palette settings" width="860" height="1921" loading="lazy" decoding="async">
             </div>
           </div>
 
@@ -536,7 +542,7 @@
               <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.94rem;">Show, hide, or reorder 10 Home Screen sections, save Custom Named Home Feed Configurations, and even rearrange your 5 bottom navigation tabs in your preferred order.</p>
             </div>
             <div class="stage-img">
-              <img src="assets/screenshots/feature-home-feed.webp" alt="OffGrid Music Home Screen Feed and Bottom Navigation Bar reorder settings" loading="lazy">
+              <img src="assets/screenshots/feature-home-feed.webp" alt="OffGrid Music Home Screen Feed and Bottom Navigation Bar reorder settings" width="652" height="2000" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
@@ -562,7 +568,7 @@
               <span class="widget-pill">LIVE CAPTURE</span>
             </div>
             <div class="widget-video-wrap">
-              <video autoplay loop muted playsinline preload="metadata" poster="assets/screenshots/lyrics-fluid-glow.webp" aria-label="OffGrid Music Live Lyrics Widget playing English synced lyrics">
+              <video autoplay loop muted playsinline controls width="640" height="352" preload="metadata" poster="assets/screenshots/lyrics-fluid-glow.webp" aria-label="OffGrid Music Live Lyrics Widget playing English synced lyrics">
                 <source src="assets/videos/lyric-widget-english.mp4" type="video/mp4">
               </video>
             </div>
@@ -575,7 +581,7 @@
               <span class="widget-pill">MULTI-LANGUAGE</span>
             </div>
             <div class="widget-video-wrap">
-              <video autoplay loop muted playsinline preload="metadata" poster="assets/screenshots/widget-live-lyrics-tamil.webp" aria-label="OffGrid Music Live Lyrics Widget playing Tamil synced lyrics">
+              <video autoplay loop muted playsinline controls width="656" height="352" preload="metadata" poster="assets/screenshots/widget-live-lyrics-tamil.webp" aria-label="OffGrid Music Live Lyrics Widget playing Tamil synced lyrics">
                 <source src="assets/videos/lyric-widget-tamil.mp4" type="video/mp4">
               </video>
             </div>
@@ -592,7 +598,7 @@
               <p>Every widget dynamically extracts colors from your currently playing album art and adapts cleanly across Android home screen grid sizes.</p>
             </div>
             <div class="bento-media-stage">
-              <img src="assets/screenshots/widget-pack-4.webp" alt="OffGrid Music 4 Adaptive Android Home Screen Widgets — Full Pack" loading="lazy">
+              <img src="assets/screenshots/widget-pack-4.webp" alt="OffGrid Music 4 Adaptive Android Home Screen Widgets — Full Pack" width="860" height="1477" loading="lazy" decoding="async">
             </div>
           </article>
 
@@ -603,7 +609,7 @@
               <p>Automatically reads embedded tags and local <code>.lrc</code> files, or searches online for multiple synced candidates with ±ms timing offset saved locally.</p>
             </div>
             <div class="bento-media-stage">
-              <img src="assets/screenshots/feature-find-lyrics.webp" alt="OffGrid Music Find Lyrics Online modal showing multiple synced matches" loading="lazy">
+              <img src="assets/screenshots/feature-find-lyrics.webp" alt="OffGrid Music Find Lyrics Online modal showing multiple synced matches" width="860" height="1921" loading="lazy" decoding="async">
             </div>
           </article>
         </div>
@@ -625,7 +631,7 @@
         <div class="audio-showcase">
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-audio-eq.webp" alt="OffGrid Music Audio and Sound settings with Crossfade, Gapless, and 5-Band Equalizer" loading="lazy">
+              <img src="assets/screenshots/feature-audio-eq.webp" alt="OffGrid Music Audio and Sound settings with Crossfade, Gapless, and 5-Band Equalizer" width="494" height="2000" loading="lazy" decoding="async">
             </div>
             <h3>Audio &amp; Sound Engine</h3>
             <ul class="spec-list">
@@ -639,7 +645,7 @@
 
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-sonic-studio.webp" alt="OffGrid Music Sonic Studio menu with A-B Loop, Audio Pins, DNA Radio, and Repeat This Song" loading="lazy">
+              <img src="assets/screenshots/feature-sonic-studio.webp" alt="OffGrid Music Sonic Studio menu with A-B Loop, Audio Pins, DNA Radio, and Repeat This Song" width="860" height="1921" loading="lazy" decoding="async">
             </div>
             <h3>Sonic Studio &amp; Smart Controls</h3>
             <ul class="spec-list">
@@ -653,7 +659,7 @@
 
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-waveforms.webp" alt="OffGrid Music 7 Waveform and Seekbar styles selector" loading="lazy">
+              <img src="assets/screenshots/feature-waveforms.webp" alt="OffGrid Music 7 Waveform and Seekbar styles selector" width="860" height="1921" loading="lazy" decoding="async">
             </div>
             <h3>7 Waveform &amp; 4 Mini-Player Styles</h3>
             <ul class="spec-list">
@@ -682,7 +688,7 @@
         <div class="audio-showcase">
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-listening-insights.webp" alt="OffGrid Music Listening Insights with 92h playtime, 33 day streak, and listening pace" loading="lazy">
+              <img src="assets/screenshots/feature-listening-insights.webp" alt="OffGrid Music Listening Insights with 92h playtime, 33 day streak, and listening pace" width="558" height="2000" loading="lazy" decoding="async">
             </div>
             <h3>Real-Time Listening Insights</h3>
             <p>Track total playtime, active streaks, daily pace comparisons, Top Tracks, Top Artists, and custom track-completion thresholds across Today, 7 Days, 30 Days, or All Time.</p>
@@ -690,7 +696,7 @@
 
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-wrapped-story.webp" alt="OffGrid Music 6-Slide Interactive Wrapped Story showing Night Owl Explorer archetype" loading="lazy">
+              <img src="assets/screenshots/feature-wrapped-story.webp" alt="OffGrid Music 6-Slide Interactive Wrapped Story showing Night Owl Explorer archetype" width="860" height="1921" loading="lazy" decoding="async">
             </div>
             <h3>6-Slide Calendar Wrapped Story</h3>
             <p>Launch an animated Wrapped Story for any preset or custom Calendar date range, discover your Listener Archetype, and export high-resolution stats cards in one tap.</p>
@@ -698,7 +704,7 @@
 
           <article class="showcase-card reveal-up">
             <div class="showcase-img-wrap">
-              <img src="assets/screenshots/feature-cloud-backup.webp" alt="OffGrid Music Optional Encrypted Cloud Backup and Sync settings" loading="lazy">
+              <img src="assets/screenshots/feature-cloud-backup.webp" alt="OffGrid Music Optional Encrypted Cloud Backup and Sync settings" width="860" height="1921" loading="lazy" decoding="async">
             </div>
             <h3>Optional Encrypted Cloud Backup</h3>
             <p>Stay 100% local with no account—or sign in with Google or Email/Password to back up Favorites, Playlists, Stats, Lyrics Offsets, and Preferences Daily, Weekly, or Monthly.</p>
@@ -715,7 +721,7 @@
           <h2 class="section-title">How OffGrid compares to typical offline players.</h2>
         </div>
 
-        <div class="compare-wrap reveal-up">
+        <div class="compare-wrap reveal-up" role="region" aria-label="Feature comparison table" tabindex="0">
           <table class="compare-table">
             <thead>
               <tr>
@@ -777,19 +783,19 @@
 
         <div class="faq-toolbar reveal-up">
           <div class="faq-filter-bar" role="tablist" aria-label="FAQ Categories">
-            <button class="faq-filter-btn active" data-faq-filter="all">All</button>
-            <button class="faq-filter-btn" data-faq-filter="trust">Trust &amp; Safety</button>
-            <button class="faq-filter-btn" data-faq-filter="account">Account &amp; Backup</button>
-            <button class="faq-filter-btn" data-faq-filter="jam">Off-Grid Jam</button>
-            <button class="faq-filter-btn" data-faq-filter="ai">AI &amp; Lyrics</button>
-            <button class="faq-filter-btn" data-faq-filter="playback">Playback &amp; Library</button>
-            <button class="faq-filter-btn" data-faq-filter="updates">Updates &amp; Tips</button>
+            <button type="button" class="faq-filter-btn active" role="tab" aria-selected="true" data-faq-filter="all">All</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="trust">Trust &amp; Safety</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="account">Account &amp; Backup</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="jam">Off-Grid Jam</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="ai">AI &amp; Lyrics</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="playback">Playback &amp; Library</button>
+            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="updates">Updates &amp; Tips</button>
           </div>
         </div>
 
         <div class="faq-meta-row reveal-up">
           <span class="mono" id="faq-count">14 questions</span>
-          <button class="faq-expand-btn" id="faq-expand-all">Expand all</button>
+          <button type="button" class="faq-expand-btn" id="faq-expand-all">Expand all</button>
         </div>
 
         <div class="faq-list reveal-up">
@@ -991,9 +997,6 @@
     </div>
   </footer>
 
-  <!-- GSAP & ScrollTrigger -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>

@@ -90,6 +90,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 18px);
   background-color: var(--bg);
   color: var(--text);
   font-size: 16px;
@@ -423,16 +424,16 @@ button {
   margin-bottom: clamp(42px, 6vw, 70px);
 }
 
-/* 3-Phone Hero Stage */
+/* 4-Phone Hero Showcase Stage: Home, Now Playing, Lyrics, Playlist */
 .hero-stage {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  gap: clamp(12px, 2.5vw, 28px);
-  max-width: 980px;
+  gap: clamp(10px, 1.8vw, 22px);
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 12px 0 20px;
+  padding: 12px 0 38px;
 }
 
 .phone-frame {
@@ -442,6 +443,7 @@ button {
   background: linear-gradient(160deg, #2d3345, #11141e);
   box-shadow: var(--shadow-phone);
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .phone-frame::before {
@@ -472,19 +474,45 @@ button {
   object-position: top center;
 }
 
-.hero-phone-main {
-  width: clamp(230px, 27vw, 295px);
-  z-index: 3;
+.hero-phone {
+  translate: 0 0;
+  rotate: 0deg;
+  scale: 1;
+  --rest-y: 0px;
+  --scroll-y: 0px;
+  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 }
 
-.hero-phone-side {
-  width: clamp(190px, 22vw, 248px);
-  opacity: 0.92;
+.hero-phone-outer-left,
+.hero-phone-outer-right {
+  width: clamp(154px, 18vw, 228px);
+  opacity: 0.94;
   z-index: 2;
+  --rest-y: 24px;
+  --scroll-y: -18px;
+  translate: 0 var(--rest-y);
 }
 
-.hero-phone-left { transform: translateY(28px) rotate(-5deg); }
-.hero-phone-right { transform: translateY(28px) rotate(5deg); }
+.hero-phone-outer-left { rotate: -3.2deg; }
+.hero-phone-outer-right { rotate: 3.2deg; }
+
+.hero-phone-inner-left,
+.hero-phone-inner-right {
+  width: clamp(172px, 20.5vw, 254px);
+  z-index: 3;
+  --rest-y: 0px;
+  --scroll-y: -8px;
+}
+
+.hero-phone-inner-left { rotate: -0.9deg; }
+.hero-phone-inner-right { rotate: 0.9deg; }
+
+@media (hover: hover) {
+  .hero-phone:hover {
+    scale: 1.03;
+    z-index: 5;
+  }
+}
 
 /* ==========================================================================
    Bento Highlights Grid (Full-Visibility Uncropped Media Framing)
@@ -601,7 +629,7 @@ button {
 }
 
 .bento-media-stage img {
-  width: auto;
+  width: 100%;
   max-width: 100%;
   max-height: 440px;
   height: auto;
@@ -612,10 +640,23 @@ button {
 .bento-card-split .bento-media-stage {
   margin-top: 0;
   padding: 8px;
+  height: 378px;
 }
 
 .bento-card-split .bento-media-stage img {
+  width: auto;
+  height: 100%;
   max-height: 360px;
+}
+
+.lyrics-subgrid .bento-media-stage {
+  height: 468px;
+}
+
+.lyrics-subgrid .bento-media-stage img {
+  width: auto;
+  height: 100%;
+  max-height: 440px;
 }
 
 .format-pills {
@@ -689,15 +730,53 @@ button {
   padding: 36px 0 90px;
 }
 
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes reveal-fade-start {
+  to {
+    --fade-start: var(--fade-size);
+  }
+}
+
+@keyframes hide-fade-end {
+  from {
+    --fade-end: var(--fade-size);
+  }
+}
+
 .ui-category-bar {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: inline proximity;
+  scroll-padding-inline: 2.5rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 36px;
   gap: 10px;
-  margin-bottom: 36px;
+  padding-bottom: 4px;
+}
+
+.ui-category-bar::-webkit-scrollbar,
+.faq-filter-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .cat-btn {
+  flex: none;
+  scroll-snap-align: start;
+  position: relative;
   padding: 10px 20px;
   border-radius: var(--radius-pill);
   background: var(--bg-card);
@@ -705,7 +784,7 @@ button {
   color: var(--text-muted);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cat-btn:hover {
@@ -713,11 +792,25 @@ button {
   background: var(--bg-card-hover);
 }
 
-.cat-btn.active {
+.cat-btn.active,
+.cat-btn[aria-selected="true"] {
   background: var(--grad-brand);
   color: #ffffff;
   border-color: transparent;
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.32);
+}
+
+.cat-btn[aria-selected="true"]::after,
+.faq-filter-btn[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 3px;
+  border-block-end: 2px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.85;
+  pointer-events: none;
 }
 
 .studio-grid {
@@ -884,13 +977,17 @@ button {
   padding: 8px;
   border: 1px solid var(--border);
   display: flex;
+  align-items: center;
   justify-content: center;
+  height: 418px;
 }
 
 .feature-split-card img {
   border-radius: 12px;
   max-height: 400px;
+  height: 100%;
   width: auto;
+  max-width: 100%;
   object-fit: contain;
 }
 
@@ -974,6 +1071,12 @@ button {
   flex-direction: column;
   gap: 18px;
   box-shadow: var(--shadow-card);
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.showcase-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
 }
 
 .showcase-card h3 {
@@ -1088,11 +1191,20 @@ button {
 
 .faq-filter-bar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: inline proximity;
+  scroll-padding-inline: 2.5rem;
+  max-width: 100%;
   gap: 8px;
+  padding-bottom: 4px;
 }
 
 .faq-filter-btn {
+  flex: none;
+  scroll-snap-align: start;
+  position: relative;
   padding: 8px 15px;
   border-radius: var(--radius-pill);
   font-size: 0.84rem;
@@ -1100,14 +1212,15 @@ button {
   background: var(--bg-card);
   border: 1px solid var(--border-strong);
   color: var(--text-muted);
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .faq-filter-btn:hover {
   color: var(--text);
 }
 
-.faq-filter-btn.active {
+.faq-filter-btn.active,
+.faq-filter-btn[aria-selected="true"] {
   background: var(--grad-brand);
   color: #ffffff;
   border-color: transparent;
@@ -1327,6 +1440,147 @@ button {
 }
 
 /* ==========================================================================
+   Scroll-Driven Animations & Optimized IntersectionObserver Reveal System
+   ========================================================================== */
+.reveal-up {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-rise {
+    from {
+      opacity: 0.01;
+      translate: 0 16px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .hero-animate {
+    animation: hero-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  .hero-badge.hero-animate { --hero-delay: 0ms; }
+  .hero h1.hero-animate { --hero-delay: 55ms; }
+  .hero-sub.hero-animate { --hero-delay: 105ms; }
+  .hero-ctas.hero-animate { --hero-delay: 155ms; }
+  .hero-meta.hero-animate { --hero-delay: 205ms; }
+
+  @keyframes reveal-up-enter {
+    from {
+      opacity: 0;
+      translate: 0 24px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .reveal-up.reveal-pending {
+    opacity: 0;
+    translate: 0 24px;
+  }
+
+  .reveal-up.is-revealed {
+    animation: reveal-up-enter 0.56s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+  }
+
+  /* Native CSS Scroll-Driven Parallax for 4-Phone Hero Stage */
+  @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+    @media (min-width: 761px) {
+      @keyframes hero-phone-parallax {
+        from {
+          translate: 0 var(--rest-y);
+        }
+        to {
+          translate: 0 var(--scroll-y);
+        }
+      }
+
+      .hero-phone {
+        animation: hero-phone-parallax linear both;
+        animation-timeline: scroll(block root);
+        animation-range: 0px 640px;
+      }
+    }
+  }
+
+  /* Native CSS View-Timeline Reveal for Chapter Banners (I–IV) */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes chapter-banner-reveal {
+      from {
+        opacity: 0.25;
+        scale: 0.93;
+        translate: 0 18px;
+      }
+      to {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    .chapter-banner h2 {
+      scale: 1;
+      translate: 0 0;
+      animation: chapter-banner-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 40%;
+    }
+
+    .chapter-banner p {
+      scale: 1;
+      translate: 0 0;
+      animation: chapter-banner-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 44%;
+    }
+  }
+}
+
+/* Scroll-Driven Edge Fade Hints for Horizontally Scrollable Tablists */
+@supports ((animation-timeline: scroll()) and (animation-range: 0px 10px) and (mask-clip: no-clip)) {
+  .ui-category-bar,
+  .faq-filter-bar {
+    --fade-size: 2.25rem;
+    --fade-dir: right;
+    --fade-start-pos: 0;
+    --fade-end-pos: 100%;
+    mask:
+      linear-gradient(black, black) no-clip subtract,
+      linear-gradient(to var(--fade-dir), black, transparent) var(--fade-start-pos) 0 / var(--fade-start) 100% no-repeat no-clip,
+      linear-gradient(to var(--fade-dir), transparent, black) var(--fade-end-pos) 0 / var(--fade-end) 100% no-repeat no-clip;
+    animation: reveal-fade-start linear both, hide-fade-end linear both;
+    animation-timeline: scroll(self inline);
+    animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+  }
+}
+
+/* Fallback Banner Reveal when Scroll-Driven View Timelines are Unsupported */
+.chapter-banner h2.banner-pending,
+.chapter-banner p.banner-pending {
+  opacity: 0.25;
+  scale: 0.94;
+  translate: 0 16px;
+}
+
+.chapter-banner h2.banner-visible,
+.chapter-banner p.banner-visible {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1080px) {
@@ -1338,7 +1592,6 @@ button {
 }
 
 @media (max-width: 820px) {
-  .hero-phone-side { display: none; }
   .bento-span-7, .bento-span-5, .bento-span-4 { grid-column: span 12; }
   .studio-grid { grid-template-columns: 1fr; }
   .studio-phone { width: 230px; }
@@ -1348,7 +1601,76 @@ button {
   .nav-actions .btn-ghost { display: none; }
 }
 
+@media (max-width: 760px) {
+  .hero-stage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 420px;
+    padding: 8px 0 28px;
+    align-items: start;
+  }
+
+  .hero-phone {
+    width: 100%;
+    --rest-y: 0px;
+    --scroll-y: 0px;
+    translate: 0 0;
+    rotate: 0deg;
+    opacity: 1;
+    border-radius: 24px;
+    padding: 6px;
+  }
+
+  .hero-phone::before {
+    top: 10px;
+    width: 44px;
+    height: 10px;
+  }
+
+  .hero-phone .phone-screen {
+    border-radius: 19px;
+  }
+
+  .hero-phone-inner-left,
+  .hero-phone-outer-right {
+    translate: 0 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav-inner {
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 0.96rem;
+    gap: 7px;
+  }
+
+  .brand img {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .nav-actions .btn-primary {
+    padding: 7px 11px;
+    font-size: 0.78rem;
+  }
+
+  .theme-toggle,
+  .nav-toggle {
+    width: 34px;
+    height: 34px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .studio-slide-img, .bento-card, .btn { transition: none; }
+  .studio-slide-img, .bento-card, .showcase-card, .hero-phone, .btn { transition: none; }
 }

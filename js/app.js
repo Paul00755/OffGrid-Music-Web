@@ -1,7 +1,8 @@
 /**
  * OffGrid Music — Interactive Showcase Controller
  * Handles Dark/Light theme, Category-Filtered UI Studio, 14-Question FAQ,
- * Support Email Copy, GSAP ScrollTrigger animations, and live GitHub Releases APK sync.
+ * Support Email Copy, Viewport-aware Video Playback, Native Scroll-Driven /
+ * IntersectionObserver Reveal System, and live GitHub Releases APK sync.
  */
 const SITE_CONFIG = {
   GITHUB_REPO: "Paul00755/OffGrid-Music",
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initUIStudio();
   initFAQ();
   initCopyEmail();
+  initVideoPlayback();
   initScrollAnimations();
   fetchLatestGitHubRelease();
 });
@@ -46,11 +48,12 @@ function initConfigLinks() {
   });
 }
 
-/* 3. Sticky Nav & Mobile Drawer */
+/* 3. Sticky Nav, Active Section Tracking & Mobile Drawer */
 function initNavbar() {
   const nav = document.getElementById("site-nav");
   const toggle = document.getElementById("nav-toggle");
   const drawer = document.getElementById("mobile-drawer");
+  const navLinks = Array.from(document.querySelectorAll(".nav-links a[href^='#']"));
 
   const onScroll = () => {
     if (!nav) return;
@@ -60,17 +63,71 @@ function initNavbar() {
   onScroll();
 
   if (toggle && drawer) {
+    const closeDrawer = () => {
+      drawer.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
     toggle.addEventListener("click", () => {
       const open = drawer.classList.toggle("open");
       toggle.setAttribute("aria-expanded", String(open));
     });
+
     drawer.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        drawer.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", closeDrawer);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && drawer.classList.contains("open")) {
+        closeDrawer();
+        toggle.focus();
+      }
     });
   }
+
+  // Highlight active section in top nav
+  if (navLinks.length && "IntersectionObserver" in window) {
+    const linkById = new Map();
+    navLinks.forEach((link) => {
+      const id = link.getAttribute("href").slice(1);
+      const section = document.getElementById(id);
+      if (section) linkById.set(section, link);
+    });
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const activeLink = linkById.get(entry.target);
+          if (!activeLink) continue;
+          navLinks.forEach((l) => l.classList.toggle("active", l === activeLink));
+        }
+      },
+      { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+    );
+
+    linkById.forEach((_, section) => sectionObserver.observe(section));
+  }
+}
+
+/* Helper: Arrow / Home / End keyboard navigation for ARIA tablists */
+function bindTablistKeyboard(tabs, onSelect) {
+  if (!tabs.length) return;
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = null;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = tabs.length - 1;
+
+      if (nextIndex === null) return;
+      event.preventDefault();
+      const targetTab = tabs[nextIndex];
+      onSelect(targetTab);
+      targetTab.focus();
+    });
+  });
 }
 
 /* 4. Interactive Category-Filtered UI Studio (shows ONLY 4 / 4 / 3 / 4 options for selected tab) */
@@ -93,8 +150,6 @@ function initUIStudio() {
     playlists: "Playlists UI (4 layouts)"
   };
 
-  let activeCat = "nowplaying";
-
   function activateLayout(id) {
     const targetStep = steps.find((s) => s.dataset.layout === id);
     if (!targetStep) return;
@@ -106,14 +161,16 @@ function initUIStudio() {
     if (capName) capName.textContent = targetStep.dataset.title || "";
   }
 
-  function selectCategory(catKey) {
-    activeCat = catKey;
-
+  function selectCategory(catKey, scrollTabIntoView = false) {
     // Update top category tabs
     catBtns.forEach((btn) => {
       const isActive = btn.dataset.cat === catKey;
       btn.classList.toggle("active", isActive);
       btn.setAttribute("aria-selected", String(isActive));
+      btn.setAttribute("tabindex", isActive ? "0" : "-1");
+      if (isActive && scrollTabIntoView) {
+        btn.scrollIntoView({ block: "nearest", inline: "nearest" });
+      }
     });
 
     // Show ONLY the 3 or 4 cards belonging to this category
@@ -141,24 +198,36 @@ function initUIStudio() {
     }
   }
 
-  // Click any visible step card to preview immediately
+  // Click or keyboard activate any visible step card to preview immediately
   steps.forEach((step) => {
+    step.setAttribute("tabindex", "0");
+    step.setAttribute("role", "button");
     step.addEventListener("click", () => {
       activateLayout(step.dataset.layout);
+    });
+    step.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activateLayout(step.dataset.layout);
+      }
     });
   });
 
   // Category filter buttons
   catBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      selectCategory(btn.dataset.cat);
+      selectCategory(btn.dataset.cat, true);
     });
+  });
+
+  bindTablistKeyboard(catBtns, (tab) => {
+    selectCategory(tab.dataset.cat, true);
   });
 
   if (nextCatBtn) {
     nextCatBtn.addEventListener("click", () => {
       const nextKey = nextCatBtn.dataset.nextCat || "home";
-      selectCategory(nextKey);
+      selectCategory(nextKey, true);
     });
   }
 
@@ -188,7 +257,10 @@ function initFAQ() {
       countEl.textContent = `${visible} ${visible === 1 ? "question" : "questions"}`;
     }
     filterBtns.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.faqFilter === cat);
+      const isActive = btn.dataset.faqFilter === cat;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", String(isActive));
+      btn.setAttribute("tabindex", isActive ? "0" : "-1");
     });
   }
 
@@ -198,7 +270,12 @@ function initFAQ() {
     });
   });
 
+  bindTablistKeyboard(filterBtns, (tab) => {
+    applyFilter(tab.dataset.faqFilter);
+  });
+
   if (expandBtn) {
+    expandBtn.setAttribute("aria-expanded", "false");
     expandBtn.addEventListener("click", () => {
       allExpanded = !allExpanded;
       items.forEach((item) => {
@@ -207,6 +284,7 @@ function initFAQ() {
         }
       });
       expandBtn.textContent = allExpanded ? "Collapse all" : "Expand all";
+      expandBtn.setAttribute("aria-expanded", String(allExpanded));
     });
   }
 
@@ -232,71 +310,269 @@ function initCopyEmail() {
   });
 }
 
-/* 7. GSAP ScrollTrigger Animations */
-function initScrollAnimations() {
+/* 7. Viewport-Aware Video Playback & Reduced Motion Handling */
+function initVideoPlayback() {
+  const videos = Array.from(document.querySelectorAll(".widget-video-wrap video"));
+  if (!videos.length) return;
+
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReduced || typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined") {
+  if (prefersReduced) {
+    videos.forEach((video) => {
+      video.removeAttribute("autoplay");
+      video.pause();
+    });
     return;
   }
 
-  const gsap = window.gsap;
-  gsap.registerPlugin(window.ScrollTrigger);
-  const mm = gsap.matchMedia();
+  if (!("IntersectionObserver" in window)) return;
 
-  gsap.from(".hero-animate", {
-    y: 26,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.09,
-    ease: "power3.out"
-  });
-
-  mm.add("(min-width: 821px)", () => {
-    gsap.to(".hero-phone-left", {
-      y: -34,
-      rotation: -8,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 }
-    });
-    gsap.to(".hero-phone-right", {
-      y: -34,
-      rotation: 8,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 }
-    });
-    gsap.to(".hero-phone-main", {
-      y: -16,
-      scale: 1.03,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 }
-    });
-  });
-
-  gsap.utils.toArray(".reveal-up").forEach((el) => {
-    gsap.from(el, {
-      y: 34,
-      opacity: 0,
-      duration: 0.72,
-      ease: "power2.out",
-      scrollTrigger: { trigger: el, start: "top 88%", once: true }
-    });
-  });
-
-  gsap.utils.toArray(".chapter-banner h2").forEach((heading) => {
-    gsap.fromTo(
-      heading,
-      { scale: 0.9, opacity: 0.35 },
-      {
-        scale: 1,
-        opacity: 1,
-        ease: "power2.out",
-        scrollTrigger: { trigger: heading, start: "top 86%", end: "center 46%", scrub: 0.8 }
+  const userPaused = new WeakSet();
+  videos.forEach((video) => {
+    video.addEventListener("pause", () => {
+      if (video.dataset.autoPaused !== "true") {
+        userPaused.add(video);
       }
-    );
+    });
+    video.addEventListener("play", () => {
+      userPaused.delete(video);
+      delete video.dataset.autoPaused;
+    });
   });
+
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          if (!userPaused.has(video) && video.paused) {
+            delete video.dataset.autoPaused;
+            video.play().catch(() => {});
+          }
+        } else if (!video.paused) {
+          video.dataset.autoPaused = "true";
+          video.pause();
+        }
+      }
+    },
+    { threshold: 0.15 }
+  );
+
+  videos.forEach((video) => videoObserver.observe(video));
 }
 
-/* 8. Live GitHub Releases API — Auto-syncs Latest APK & Version Tag */
+/* 8. Compositor-First Scroll Animations & IntersectionObserver Reveal System */
+function initScrollAnimations() {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    return;
+  }
+
+  const revealNodes = Array.from(document.querySelectorAll(".reveal-up"));
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+
+  // Batch DOM reads first to prevent layout thrashing
+  const measurements = revealNodes.map((el) => ({
+    el,
+    rect: el.getBoundingClientRect()
+  }));
+
+  const pendingNodes = [];
+  measurements.forEach(({ el, rect }) => {
+    // Anything already inside or scrolled above the viewport stays immediately visible
+    if (rect.top < vh * 0.96) {
+      el.classList.remove("reveal-pending");
+    } else {
+      el.classList.add("reveal-pending");
+      pendingNodes.push(el);
+    }
+  });
+
+  const revealElement = (el, delayMs = 0, animate = true) => {
+    if (!el.classList.contains("reveal-pending")) return;
+    el.classList.remove("reveal-pending");
+    if (animate) {
+      el.style.setProperty("--reveal-delay", `${delayMs}ms`);
+      el.classList.add("is-revealed");
+    }
+  };
+
+  if (pendingNodes.length) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        const currentVh = window.innerHeight || document.documentElement.clientHeight;
+        const visibleBatch = [];
+
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visibleBatch.push(entry);
+          } else if (entry.boundingClientRect.top < currentVh) {
+            // Element was scrolled past rapidly (e.g. anchor jump / scrollbar drag)
+            revealElement(entry.target, 0, false);
+            revealObserver.unobserve(entry.target);
+          }
+        }
+
+        // Order left-to-right / top-to-bottom within a single viewport reveal batch
+        visibleBatch.sort((a, b) => {
+          const topDiff = a.boundingClientRect.top - b.boundingClientRect.top;
+          if (Math.abs(topDiff) > 24) return topDiff;
+          return a.boundingClientRect.left - b.boundingClientRect.left;
+        });
+
+        visibleBatch.forEach((entry, idx) => {
+          const staggerMs = Math.min(idx, 3) * 70;
+          revealElement(entry.target, staggerMs, true);
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.04, rootMargin: "0px 0px -32px 0px" }
+    );
+
+    pendingNodes.forEach((el) => revealObserver.observe(el));
+
+    // Ensure anchor jumps (#audio-engine, #insights, #faq) reveal target & preceding sections cleanly
+    const revealAtAnchor = (hash) => {
+      if (!hash || hash === "#") return;
+      const target = document.getElementById(hash.slice(1));
+      if (!target) return;
+
+      // Immediately reveal everything inside the target section itself (e.g. stacked mobile cards)
+      target.querySelectorAll(".reveal-pending").forEach((el) => {
+        revealElement(el, 0, false);
+        revealObserver.unobserve(el);
+      });
+      if (target.classList.contains("reveal-pending")) {
+        revealElement(target, 0, false);
+        revealObserver.unobserve(target);
+      }
+
+      const targetTop = target.getBoundingClientRect().top + window.scrollY;
+      const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
+      const positions = remaining.map((el) => ({
+        el,
+        top: el.getBoundingClientRect().top + window.scrollY
+      }));
+      positions.forEach(({ el, top }) => {
+        if (top <= targetTop + (window.innerHeight || 900)) {
+          revealElement(el, 0, false);
+          revealObserver.unobserve(el);
+        }
+      });
+    };
+
+    // Safety sweep after smooth scrolling / scrollbar drags finish
+    const sweepVisibleAndPassed = () => {
+      const currentVh = window.innerHeight || document.documentElement.clientHeight;
+      const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
+      if (!remaining.length) {
+        window.removeEventListener("scrollend", sweepVisibleAndPassed);
+        return;
+      }
+      const rects = remaining.map((el) => ({ el, rect: el.getBoundingClientRect() }));
+      rects.forEach(({ el, rect }) => {
+        if (rect.top < currentVh * 0.98) {
+          revealElement(el, 0, rect.bottom > 0);
+          revealObserver.unobserve(el);
+        }
+      });
+    };
+    window.addEventListener("scrollend", sweepVisibleAndPassed, { passive: true });
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", () => {
+        revealAtAnchor(anchor.getAttribute("href"));
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      revealAtAnchor(window.location.hash);
+    });
+  }
+
+  // Fallback for browsers without native CSS Scroll-Driven View Timelines
+  const supportsViewTimeline = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
+  if (!supportsViewTimeline) {
+    const bannerTargets = Array.from(document.querySelectorAll(".chapter-banner h2, .chapter-banner p"));
+    const bannerRects = bannerTargets.map((el) => ({ el, top: el.getBoundingClientRect().top }));
+    const pendingBanners = [];
+
+    bannerRects.forEach(({ el, top }) => {
+      if (top >= vh * 0.96) {
+        el.classList.add("banner-pending");
+        pendingBanners.push(el);
+      }
+    });
+
+    if (pendingBanners.length) {
+      const bannerObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.boundingClientRect.top < (window.innerHeight || vh)) {
+              entry.target.classList.remove("banner-pending");
+              entry.target.classList.add("banner-visible");
+              bannerObserver.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.1 }
+      );
+      pendingBanners.forEach((el) => bannerObserver.observe(el));
+    }
+  }
+
+  // Fallback for browsers without native CSS Scroll-Driven Hero Parallax
+  const supportsScrollTimeline = CSS.supports("(animation-timeline: scroll()) and (animation-range: 0% 100%)");
+  if (!supportsScrollTimeline) {
+    const hero = document.querySelector(".hero");
+    const phones = Array.from(document.querySelectorAll(".hero-phone"));
+    const desktopMq = window.matchMedia("(min-width: 761px)");
+    if (hero && phones.length) {
+      let rafPending = false;
+      let isHeroVisible = true;
+
+      const updateParallax = () => {
+        rafPending = false;
+        if (!desktopMq.matches) {
+          phones.forEach((p) => { p.style.translate = ""; });
+          return;
+        }
+        const progress = Math.min(1, Math.max(0, window.scrollY / 640));
+        phones.forEach((phone) => {
+          const isOuter = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-outer-right");
+          const restY = isOuter ? 24 : 0;
+          const endY = isOuter ? -18 : -8;
+          const currentY = restY + (endY - restY) * progress;
+          phone.style.translate = `0px ${currentY.toFixed(1)}px`;
+        });
+      };
+
+      const onHeroScroll = () => {
+        if (!isHeroVisible || rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(updateParallax);
+      };
+
+      const heroObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isHeroVisible = entry.isIntersecting;
+            if (isHeroVisible) {
+              window.addEventListener("scroll", onHeroScroll, { passive: true });
+              updateParallax();
+            } else {
+              window.removeEventListener("scroll", onHeroScroll);
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+
+      heroObserver.observe(hero);
+    }
+  }
+}
+
+/* 9. Live GitHub Releases API — Auto-syncs Latest APK & Version Tag */
 async function fetchLatestGitHubRelease() {
   const versionEls = document.querySelectorAll("[data-apk-version]");
   const downloadBtns = document.querySelectorAll("[data-apk-download]");
