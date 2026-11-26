@@ -1,8 +1,9 @@
 /**
  * OffGrid Music — Interactive Showcase Controller
- * Handles Dark/Light theme, Category-Filtered UI Studio, 14-Question FAQ,
- * Support Email Copy, Viewport-aware Video Playback, Native Scroll-Driven /
- * IntersectionObserver Reveal System, and live GitHub Releases APK sync.
+ * Handles Dark/Light theme, Sticky 3D UI Studio, 14-Question FAQ,
+ * Support Email Copy, Viewport-aware Video Playback, 3D Pointer Tilt,
+ * Back-to-Top control, Bidirectional Scroll-Driven / IntersectionObserver
+ * Reveal & Auto-Hide System, and live GitHub Releases APK sync.
  */
 const SITE_CONFIG = {
   GITHUB_REPO: "Paul00755/OffGrid-Music",
@@ -15,10 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initThemeToggle();
   initConfigLinks();
   initNavbar();
+  initBackToTop();
   initUIStudio();
   initFAQ();
   initCopyEmail();
   initVideoPlayback();
+  init3DTilt();
   initScrollAnimations();
   fetchLatestGitHubRelease();
 });
@@ -110,6 +113,23 @@ function initNavbar() {
   }
 }
 
+/* 4. Floating Back-to-Top Control */
+function initBackToTop() {
+  const btn = document.getElementById("back-to-top");
+  if (!btn) return;
+
+  const updateVisibility = () => {
+    btn.classList.toggle("visible", window.scrollY > 480);
+  };
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  updateVisibility();
+
+  btn.addEventListener("click", () => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
+  });
+}
+
 /* Helper: Arrow / Home / End keyboard navigation for ARIA tablists */
 function bindTablistKeyboard(tabs, onSelect) {
   if (!tabs.length) return;
@@ -130,8 +150,9 @@ function bindTablistKeyboard(tabs, onSelect) {
   });
 }
 
-/* 4. Interactive Category-Filtered UI Studio (shows ONLY 4 / 4 / 3 / 4 options for selected tab) */
+/* 5. Interactive Sticky 3D UI Studio (shows ONLY 4 / 4 / 3 / 4 options for selected tab) */
 function initUIStudio() {
+  const studioSection = document.getElementById("ui-studio");
   const steps = Array.from(document.querySelectorAll(".studio-step"));
   const slides = Array.from(document.querySelectorAll(".studio-slide-img"));
   const catBtns = Array.from(document.querySelectorAll(".cat-btn"));
@@ -162,6 +183,10 @@ function initUIStudio() {
   }
 
   function selectCategory(catKey, scrollTabIntoView = false) {
+    if (studioSection) {
+      studioSection.setAttribute("data-studio-cat", catKey);
+    }
+
     // Update top category tabs
     catBtns.forEach((btn) => {
       const isActive = btn.dataset.cat === catKey;
@@ -235,7 +260,7 @@ function initUIStudio() {
   selectCategory("nowplaying");
 }
 
-/* 5. Categorized 14-Question FAQ + Expand/Collapse All */
+/* 6. Categorized 14-Question FAQ + Expand/Collapse All */
 function initFAQ() {
   const filterBtns = Array.from(document.querySelectorAll(".faq-filter-btn"));
   const items = Array.from(document.querySelectorAll(".faq-item"));
@@ -291,7 +316,7 @@ function initFAQ() {
   applyFilter("all");
 }
 
-/* 6. Copy Support Email Button */
+/* 7. Copy Support Email Button */
 function initCopyEmail() {
   const copyBtn = document.getElementById("copy-email-btn");
   if (!copyBtn) return;
@@ -310,7 +335,7 @@ function initCopyEmail() {
   });
 }
 
-/* 7. Viewport-Aware Video Playback & Reduced Motion Handling */
+/* 8. Viewport-Aware Video Playback & Reduced Motion Handling */
 function initVideoPlayback() {
   const videos = Array.from(document.querySelectorAll(".widget-video-wrap video"));
   if (!videos.length) return;
@@ -360,25 +385,76 @@ function initVideoPlayback() {
   videos.forEach((video) => videoObserver.observe(video));
 }
 
-/* 8. Compositor-First Scroll Animations & IntersectionObserver Reveal System */
+/* 9. Subtle 3D Pointer Tilt & Specular Spotlight (Fine Pointer Only) */
+function init3DTilt() {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (prefersReduced || !finePointer) return;
+
+  const targets = Array.from(document.querySelectorAll(".tilt-3d"));
+  if (!targets.length) return;
+
+  targets.forEach((el) => {
+    let rafId = null;
+    let lastEvent = null;
+    const maxTilt = el.classList.contains("phone-frame") ? 5.5 : 3.2;
+
+    const applyTilt = () => {
+      rafId = null;
+      if (!lastEvent) return;
+      const rect = el.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const px = Math.min(1, Math.max(0, (lastEvent.clientX - rect.left) / rect.width));
+      const py = Math.min(1, Math.max(0, (lastEvent.clientY - rect.top) / rect.height));
+      const rx = (0.5 - py) * 2 * maxTilt;
+      const ry = (px - 0.5) * 2 * maxTilt;
+
+      el.style.setProperty("--tilt-x", `${rx.toFixed(2)}deg`);
+      el.style.setProperty("--tilt-y", `${ry.toFixed(2)}deg`);
+      el.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+      el.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+    };
+
+    el.addEventListener("pointermove", (event) => {
+      lastEvent = event;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyTilt);
+      }
+    });
+
+    el.addEventListener("pointerleave", () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      lastEvent = null;
+      el.style.removeProperty("--tilt-x");
+      el.style.removeProperty("--tilt-y");
+    });
+  });
+}
+
+/* 10. Bidirectional Scroll-Driven Animations & IntersectionObserver Fallbacks */
 function initScrollAnimations() {
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (prefersReduced || !("IntersectionObserver" in window)) {
     return;
   }
 
-  const revealNodes = Array.from(document.querySelectorAll(".reveal-up"));
   const vh = window.innerHeight || document.documentElement.clientHeight;
+  const supportsViewTimeline = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
+  const supportsScrollTimeline = CSS.supports("(animation-timeline: scroll()) and (animation-range: 0% 100%)");
 
-  // Batch DOM reads first to prevent layout thrashing
-  const measurements = revealNodes.map((el) => ({
+  // A. One-shot reveal for FAQ / bottom CTA elements that should remain visible while reading
+  const revealNodes = Array.from(document.querySelectorAll(".reveal-up"));
+  const revealMeasurements = revealNodes.map((el) => ({
     el,
     rect: el.getBoundingClientRect()
   }));
 
   const pendingNodes = [];
-  measurements.forEach(({ el, rect }) => {
-    // Anything already inside or scrolled above the viewport stays immediately visible
+  revealMeasurements.forEach(({ el, rect }) => {
     if (rect.top < vh * 0.96) {
       el.classList.remove("reveal-pending");
     } else {
@@ -406,13 +482,11 @@ function initScrollAnimations() {
           if (entry.isIntersecting) {
             visibleBatch.push(entry);
           } else if (entry.boundingClientRect.top < currentVh) {
-            // Element was scrolled past rapidly (e.g. anchor jump / scrollbar drag)
             revealElement(entry.target, 0, false);
             revealObserver.unobserve(entry.target);
           }
         }
 
-        // Order left-to-right / top-to-bottom within a single viewport reveal batch
         visibleBatch.sort((a, b) => {
           const topDiff = a.boundingClientRect.top - b.boundingClientRect.top;
           if (Math.abs(topDiff) > 24) return topDiff;
@@ -425,42 +499,11 @@ function initScrollAnimations() {
           revealObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.04, rootMargin: "0px 0px -32px 0px" }
+      { threshold: 0.04, rootMargin: "0px 0px -28px 0px" }
     );
 
     pendingNodes.forEach((el) => revealObserver.observe(el));
 
-    // Ensure anchor jumps (#audio-engine, #insights, #faq) reveal target & preceding sections cleanly
-    const revealAtAnchor = (hash) => {
-      if (!hash || hash === "#") return;
-      const target = document.getElementById(hash.slice(1));
-      if (!target) return;
-
-      // Immediately reveal everything inside the target section itself (e.g. stacked mobile cards)
-      target.querySelectorAll(".reveal-pending").forEach((el) => {
-        revealElement(el, 0, false);
-        revealObserver.unobserve(el);
-      });
-      if (target.classList.contains("reveal-pending")) {
-        revealElement(target, 0, false);
-        revealObserver.unobserve(target);
-      }
-
-      const targetTop = target.getBoundingClientRect().top + window.scrollY;
-      const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
-      const positions = remaining.map((el) => ({
-        el,
-        top: el.getBoundingClientRect().top + window.scrollY
-      }));
-      positions.forEach(({ el, top }) => {
-        if (top <= targetTop + (window.innerHeight || 900)) {
-          revealElement(el, 0, false);
-          revealObserver.unobserve(el);
-        }
-      });
-    };
-
-    // Safety sweep after smooth scrolling / scrollbar drags finish
     const sweepVisibleAndPassed = () => {
       const currentVh = window.innerHeight || document.documentElement.clientHeight;
       const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
@@ -477,102 +520,162 @@ function initScrollAnimations() {
       });
     };
     window.addEventListener("scrollend", sweepVisibleAndPassed, { passive: true });
-
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", () => {
-        revealAtAnchor(anchor.getAttribute("href"));
-      });
-    });
-
-    window.addEventListener("hashchange", () => {
-      revealAtAnchor(window.location.hash);
-    });
   }
 
-  // Fallback for browsers without native CSS Scroll-Driven View Timelines
-  const supportsViewTimeline = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
-  if (!supportsViewTimeline) {
-    const bannerTargets = Array.from(document.querySelectorAll(".chapter-banner h2, .chapter-banner p"));
-    const bannerRects = bannerTargets.map((el) => ({ el, top: el.getBoundingClientRect().top }));
-    const pendingBanners = [];
+  // B. Bidirectional Reveal & Auto-Hide Fallback when native view() timelines are unsupported
+  const stageNodes = Array.from(document.querySelectorAll(".scroll-stage"));
+  const bannerNodes = Array.from(document.querySelectorAll(".chapter-banner h2, .chapter-banner p"));
 
-    bannerRects.forEach(({ el, top }) => {
-      if (top >= vh * 0.96) {
-        el.classList.add("banner-pending");
-        pendingBanners.push(el);
-      }
+  if (!supportsViewTimeline) {
+    document.documentElement.classList.add("scroll-fallback-enabled");
+
+    const stageMeasurements = stageNodes.map((el) => ({
+      el,
+      rect: el.getBoundingClientRect()
+    }));
+
+    stageMeasurements.forEach(({ el, rect }) => {
+      const inView = rect.top < vh * 0.94 && rect.bottom > vh * 0.06;
+      el.classList.toggle("stage-visible", inView);
+      el.classList.toggle("stage-exit-top", rect.bottom <= vh * 0.06);
     });
 
-    if (pendingBanners.length) {
-      const bannerObserver = new IntersectionObserver(
+    if (stageNodes.length) {
+      const stageObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting || entry.boundingClientRect.top < (window.innerHeight || vh)) {
-              entry.target.classList.remove("banner-pending");
-              entry.target.classList.add("banner-visible");
-              bannerObserver.unobserve(entry.target);
+            if (entry.isIntersecting) {
+              entry.target.classList.add("stage-visible");
+              entry.target.classList.remove("stage-exit-top");
+            } else {
+              entry.target.classList.remove("stage-visible");
+              entry.target.classList.toggle("stage-exit-top", entry.boundingClientRect.top < 0);
             }
           }
         },
-        { threshold: 0.1 }
+        { threshold: 0.06, rootMargin: "-4% 0px -6% 0px" }
       );
-      pendingBanners.forEach((el) => bannerObserver.observe(el));
+      stageNodes.forEach((el) => stageObserver.observe(el));
+    }
+
+    if (bannerNodes.length) {
+      bannerNodes.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const inView = rect.top < vh * 0.94 && rect.bottom > vh * 0.06;
+        el.classList.toggle("banner-visible", inView);
+      });
+
+      const bannerObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            entry.target.classList.toggle("banner-visible", entry.isIntersecting);
+          }
+        },
+        { threshold: 0.12, rootMargin: "-6% 0px -8% 0px" }
+      );
+      bannerNodes.forEach((el) => bannerObserver.observe(el));
     }
   }
 
-  // Fallback for browsers without native CSS Scroll-Driven Hero Parallax
-  const supportsScrollTimeline = CSS.supports("(animation-timeline: scroll()) and (animation-range: 0% 100%)");
+  // Anchor jump support: ensure target sections & predecessors reveal cleanly
+  const revealAtAnchor = (hash) => {
+    if (!hash || hash === "#") return;
+    const target = document.getElementById(hash.slice(1));
+    if (!target) return;
+
+    target.querySelectorAll(".reveal-pending").forEach((el) => {
+      revealElement(el, 0, false);
+    });
+    if (target.classList.contains("reveal-pending")) {
+      revealElement(target, 0, false);
+    }
+    if (!supportsViewTimeline) {
+      target.querySelectorAll(".scroll-stage").forEach((el) => {
+        el.classList.add("stage-visible");
+        el.classList.remove("stage-exit-top");
+      });
+    }
+
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+    const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
+    const positions = remaining.map((el) => ({
+      el,
+      top: el.getBoundingClientRect().top + window.scrollY
+    }));
+    positions.forEach(({ el, top }) => {
+      if (top <= targetTop + (window.innerHeight || 900)) {
+        revealElement(el, 0, false);
+      }
+    });
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", () => {
+      revealAtAnchor(anchor.getAttribute("href"));
+    });
+  });
+
+  window.addEventListener("hashchange", () => {
+    revealAtAnchor(window.location.hash);
+  });
+
+  // C. Fallback for browsers without native scroll() timelines (Hero Parallax + Progress Bar)
   if (!supportsScrollTimeline) {
     const hero = document.querySelector(".hero");
+    const heroCopy = document.querySelector(".hero-copy");
     const phones = Array.from(document.querySelectorAll(".hero-phone"));
+    const progressBar = document.querySelector(".scroll-progress-bar");
     const desktopMq = window.matchMedia("(min-width: 761px)");
-    if (hero && phones.length) {
-      let rafPending = false;
-      let isHeroVisible = true;
+    let rafPending = false;
 
-      const updateParallax = () => {
-        rafPending = false;
-        if (!desktopMq.matches) {
-          phones.forEach((p) => { p.style.translate = ""; });
-          return;
+    const updateScrollFallback = () => {
+      rafPending = false;
+      const scrollY = window.scrollY;
+
+      if (progressBar) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? Math.min(1, Math.max(0, scrollY / docHeight)) : 0;
+        progressBar.style.transform = `scaleX(${pct.toFixed(4)})`;
+      }
+
+      if (hero && scrollY < hero.offsetHeight + 120) {
+        const p = Math.min(1, Math.max(0, scrollY / 640));
+        if (heroCopy) {
+          heroCopy.style.opacity = String(Math.max(0, 1 - p * 1.15).toFixed(3));
+          heroCopy.style.translate = `0px ${(-38 * p).toFixed(1)}px`;
         }
-        const progress = Math.min(1, Math.max(0, window.scrollY / 640));
-        phones.forEach((phone) => {
-          const isOuter = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-outer-right");
-          const restY = isOuter ? 24 : 0;
-          const endY = isOuter ? -18 : -8;
-          const currentY = restY + (endY - restY) * progress;
-          phone.style.translate = `0px ${currentY.toFixed(1)}px`;
-        });
-      };
-
-      const onHeroScroll = () => {
-        if (!isHeroVisible || rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(updateParallax);
-      };
-
-      const heroObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            isHeroVisible = entry.isIntersecting;
-            if (isHeroVisible) {
-              window.addEventListener("scroll", onHeroScroll, { passive: true });
-              updateParallax();
-            } else {
-              window.removeEventListener("scroll", onHeroScroll);
-            }
+        if (desktopMq.matches) {
+          phones.forEach((phone) => {
+            const isOuter = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-outer-right");
+            const isLeft = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-inner-left");
+            const restY = isOuter ? 22 : 0;
+            const endY = isOuter ? -44 : -22;
+            const endX = (isOuter ? 26 : 8) * (isLeft ? -1 : 1);
+            const y = restY + (endY - restY) * p;
+            const x = endX * p;
+            phone.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+            phone.style.opacity = String(Math.max(0.15, 1 - p * 0.85).toFixed(3));
           });
-        },
-        { threshold: 0 }
-      );
+        } else {
+          phones.forEach((phone) => {
+            phone.style.translate = "";
+            phone.style.opacity = "";
+          });
+        }
+      }
+    };
 
-      heroObserver.observe(hero);
-    }
+    window.addEventListener("scroll", () => {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(updateScrollFallback);
+      }
+    }, { passive: true });
+    updateScrollFallback();
   }
 }
 
-/* 9. Live GitHub Releases API — Auto-syncs Latest APK & Version Tag */
+/* 11. Live GitHub Releases API — Auto-syncs Latest APK & Version Tag */
 async function fetchLatestGitHubRelease() {
   const versionEls = document.querySelectorAll("[data-apk-version]");
   const downloadBtns = document.querySelectorAll("[data-apk-download]");

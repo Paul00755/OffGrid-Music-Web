@@ -38,6 +38,9 @@
   --step-active-border: rgba(167, 139, 250, 0.55);
   --shadow-phone: 0 28px 80px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(255, 255, 255, 0.08);
   --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --card-specular: rgba(255, 255, 255, 0.085);
+  --glyph-color: rgba(167, 139, 250, 0.075);
+  --backtop-bg: rgba(12, 14, 22, 0.86);
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 28px;
@@ -80,6 +83,9 @@
   --step-active-border: rgba(109, 40, 217, 0.5);
   --shadow-phone: 0 24px 60px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.12);
   --shadow-card: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --card-specular: rgba(109, 40, 217, 0.07);
+  --glyph-color: rgba(109, 40, 217, 0.065);
+  --backtop-bg: rgba(255, 255, 255, 0.92);
 }
 
 *, *::before, *::after {
@@ -163,6 +169,18 @@ button {
 .site-nav.scrolled {
   background: var(--bg-nav-scrolled);
   border-bottom-color: var(--border-strong);
+}
+
+.scroll-progress-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--grad-brand);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
 }
 
 .nav-inner {
@@ -424,7 +442,7 @@ button {
   margin-bottom: clamp(42px, 6vw, 70px);
 }
 
-/* 4-Phone Hero Showcase Stage: Home, Now Playing, Lyrics, Playlist */
+/* 4-Phone 3D Hero Showcase Stage: Home, Now Playing, Lyrics, Playlist */
 .hero-stage {
   position: relative;
   display: flex;
@@ -433,7 +451,26 @@ button {
   gap: clamp(10px, 1.8vw, 22px);
   max-width: 1120px;
   margin: 0 auto;
-  padding: 12px 0 38px;
+  padding: 16px 0 42px;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+
+.hero-stage::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 8px;
+  height: 76px;
+  background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(139, 92, 246, 0.24), rgba(6, 182, 212, 0.14), transparent 72%);
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="light"] .hero-stage::after {
+  background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(109, 40, 217, 0.16), rgba(8, 145, 178, 0.12), transparent 72%);
 }
 
 .phone-frame {
@@ -475,42 +512,103 @@ button {
 }
 
 .hero-phone {
-  translate: 0 0;
+  translate: 0 var(--rest-y, 0px);
   rotate: 0deg;
   scale: 1;
   --rest-y: 0px;
-  --scroll-y: 0px;
-  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  --scroll-x: 0px;
+  --scroll-y: -20px;
+  --rest-ry: 0deg;
+  --rest-rz: 0deg;
+  --rest-tz: 0px;
+  transform: perspective(1400px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, var(--rest-ry))) rotateZ(var(--rest-rz)) translateZ(var(--rest-tz));
+  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 }
 
 .hero-phone-outer-left,
 .hero-phone-outer-right {
   width: clamp(154px, 18vw, 228px);
-  opacity: 0.94;
+  opacity: 0.96;
   z-index: 2;
-  --rest-y: 24px;
-  --scroll-y: -18px;
-  translate: 0 var(--rest-y);
+  --rest-y: 22px;
+  --scroll-y: -44px;
+  --rest-tz: -32px;
 }
 
-.hero-phone-outer-left { rotate: -3.2deg; }
-.hero-phone-outer-right { rotate: 3.2deg; }
+.hero-phone-outer-left {
+  --scroll-x: -26px;
+  --rest-ry: 13deg;
+  --rest-rz: -2.4deg;
+}
+
+.hero-phone-outer-right {
+  --scroll-x: 26px;
+  --rest-ry: -13deg;
+  --rest-rz: 2.4deg;
+}
 
 .hero-phone-inner-left,
 .hero-phone-inner-right {
   width: clamp(172px, 20.5vw, 254px);
   z-index: 3;
   --rest-y: 0px;
-  --scroll-y: -8px;
+  --scroll-y: -22px;
+  --rest-tz: 18px;
 }
 
-.hero-phone-inner-left { rotate: -0.9deg; }
-.hero-phone-inner-right { rotate: 0.9deg; }
+.hero-phone-inner-left {
+  --scroll-x: -8px;
+  --rest-ry: 4deg;
+  --rest-rz: -0.6deg;
+}
+
+.hero-phone-inner-right {
+  --scroll-x: 8px;
+  --rest-ry: -4deg;
+  --rest-rz: 0.6deg;
+}
 
 @media (hover: hover) {
   .hero-phone:hover {
-    scale: 1.03;
+    scale: 1.035;
     z-index: 5;
+  }
+}
+
+/* 3D Interactive Tilt & Specular Surface Highlight */
+.tilt-3d:not(.phone-frame) {
+  transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+.tilt-3d:not(.phone-frame)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), var(--card-specular), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tilt-3d:not(.phone-frame):hover::after {
+    opacity: 1;
+  }
+}
+
+.bento-media-stage img,
+.feature-split-card .stage-img img,
+.showcase-img-wrap img {
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .bento-card:hover .bento-media-stage img,
+  .feature-split-card:hover .stage-img img,
+  .showcase-card:hover .showcase-img-wrap img {
+    transform: scale(1.025);
   }
 }
 
@@ -677,18 +775,19 @@ button {
 }
 
 /* ==========================================================================
-   Dramatic Chapter Interstitials
+   Dramatic Vivo-Style Chapter Interstitials with 3D Watermark Glyph
    ========================================================================== */
 .chapter-banner {
-  min-height: 46vh;
+  min-height: 48vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding: 72px 20px;
+  padding: 76px 20px;
   border-top: 1px solid var(--border);
+  perspective: 1200px;
 }
 
 .chapter-banner::before {
@@ -697,6 +796,27 @@ button {
   inset: 0;
   background: radial-gradient(circle at 50% 50%, var(--chapter-glow, rgba(139, 92, 246, 0.2)), transparent 62%);
   pointer-events: none;
+}
+
+.chapter-glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(8.5rem, 25vw, 19rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: var(--glyph-color);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.chapter-banner > div {
+  position: relative;
+  z-index: 1;
 }
 
 .chapter-banner h2 {
@@ -817,7 +937,7 @@ button {
   display: grid;
   grid-template-columns: minmax(280px, 350px) minmax(0, 1fr);
   gap: clamp(28px, 4.5vw, 60px);
-  align-items: center;
+  align-items: start;
   max-width: 1040px;
   margin: 0 auto;
 }
@@ -828,8 +948,58 @@ button {
   align-items: center;
 }
 
+@media (min-width: 821px) {
+  .studio-phone-col {
+    position: sticky;
+    top: calc(var(--nav-h) + 28px);
+  }
+}
+
+.studio-phone-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  perspective: 1400px;
+}
+
+.studio-aura {
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.55), rgba(6, 182, 212, 0.22), transparent 72%);
+  filter: blur(56px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .studio-aura {
+  opacity: 0.28;
+}
+
+[data-studio-cat="home"] .studio-aura {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.58), rgba(139, 92, 246, 0.22), transparent 72%);
+}
+
+[data-studio-cat="lyrics"] .studio-aura {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.56), rgba(6, 182, 212, 0.22), transparent 72%);
+}
+
+[data-studio-cat="playlists"] .studio-aura {
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.56), rgba(139, 92, 246, 0.22), transparent 72%);
+}
+
 .studio-phone {
+  position: relative;
+  z-index: 1;
   width: clamp(250px, 24vw, 310px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 }
 
 .studio-screen-stack {
@@ -839,6 +1009,7 @@ button {
   border-radius: 26px;
   overflow: hidden;
   background: #07080d;
+  perspective: 900px;
 }
 
 .studio-slide-img {
@@ -849,14 +1020,14 @@ button {
   object-fit: cover;
   object-position: top center;
   opacity: 0;
-  transform: scale(1.03);
-  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: perspective(900px) rotateY(12deg) scale(0.94);
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
 
 .studio-slide-img.active {
   opacity: 1;
-  transform: scale(1);
+  transform: perspective(900px) rotateY(0deg) scale(1);
 }
 
 .studio-caption-bar {
@@ -886,12 +1057,32 @@ button {
 }
 
 .studio-step {
-  padding: 18px 22px;
+  position: relative;
+  padding: 18px 22px 18px 26px;
   border-radius: var(--radius-md);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  transition: all 0.22s ease;
+  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
   cursor: pointer;
+}
+
+.studio-step::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--grad-brand);
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.studio-step.active::before {
+  opacity: 1;
+  transform: scaleY(1);
 }
 
 .studio-step.hidden-step {
@@ -1439,11 +1630,48 @@ button {
   color: var(--text);
 }
 
-/* ==========================================================================
-   Scroll-Driven Animations & Optimized IntersectionObserver Reveal System
-   ========================================================================== */
-.reveal-up {
+/* Floating Back-to-Top Control */
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--backtop-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  box-shadow: var(--shadow-card);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  translate: 0 14px;
+  transition: opacity 0.25s ease, translate 0.25s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top.visible {
   opacity: 1;
+  pointer-events: auto;
+  translate: 0 0;
+}
+
+.back-to-top:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Vivo-Inspired Bidirectional 3D Scroll Reveal & Auto-Hide Choreography
+   ========================================================================== */
+.reveal-up,
+.scroll-stage {
+  opacity: 1;
+  scale: 1;
   translate: 0 0;
 }
 
@@ -1490,33 +1718,65 @@ button {
     animation: reveal-up-enter 0.56s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
   }
 
-  /* Native CSS Scroll-Driven Parallax for 4-Phone Hero Stage */
+  /* Native CSS Scroll-Driven Progress Hairline & 3D Hero Exit */
   @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+    @keyframes progress-grow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .scroll-progress-bar {
+      animation: progress-grow linear both;
+      animation-timeline: scroll(block root);
+      animation-range: 0% 100%;
+    }
+
+    @keyframes hero-copy-exit {
+      from {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+      to {
+        opacity: 0;
+        scale: 0.94;
+        translate: 0 -42px;
+      }
+    }
+
+    .hero-copy {
+      animation: hero-copy-exit linear both;
+      animation-timeline: scroll(block root);
+      animation-range: 60px 520px;
+    }
+
     @media (min-width: 761px) {
       @keyframes hero-phone-parallax {
         from {
+          opacity: 1;
           translate: 0 var(--rest-y);
         }
         to {
-          translate: 0 var(--scroll-y);
+          opacity: 0.14;
+          translate: var(--scroll-x) var(--scroll-y);
         }
       }
 
       .hero-phone {
         animation: hero-phone-parallax linear both;
         animation-timeline: scroll(block root);
-        animation-range: 0px 640px;
+        animation-range: 40px 680px;
       }
     }
   }
 
-  /* Native CSS View-Timeline Reveal for Chapter Banners (I–IV) */
+  /* Native View-Timeline Bidirectional Reveal & Auto-Hide (.scroll-stage + Chapters) */
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    @keyframes chapter-banner-reveal {
+    @keyframes stage-3d-in {
       from {
-        opacity: 0.25;
-        scale: 0.93;
-        translate: 0 18px;
+        opacity: 0;
+        scale: 0.91;
+        translate: 0 42px;
       }
       to {
         opacity: 1;
@@ -1525,20 +1785,102 @@ button {
       }
     }
 
-    .chapter-banner h2 {
-      scale: 1;
-      translate: 0 0;
-      animation: chapter-banner-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 5% cover 40%;
+    @keyframes stage-3d-out {
+      from {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+      to {
+        opacity: 0;
+        scale: 0.94;
+        translate: 0 -28px;
+      }
     }
 
-    .chapter-banner p {
-      scale: 1;
-      translate: 0 0;
-      animation: chapter-banner-reveal linear both;
+    .scroll-stage {
+      animation:
+        stage-3d-in auto linear backwards,
+        stage-3d-out auto linear forwards;
       animation-timeline: view();
-      animation-range: entry 8% cover 44%;
+      animation-range:
+        entry var(--stagger, 0%) cover calc(22% + var(--stagger, 0%)),
+        exit 16% exit 100%;
+    }
+
+    .compare-wrap.scroll-stage {
+      animation-range:
+        entry 0% cover 20%,
+        exit 35% exit 100%;
+    }
+
+    @keyframes chapter-banner-in {
+      from {
+        opacity: 0;
+        scale: 0.86;
+        translate: 0 32px;
+      }
+      to {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+    }
+
+    @keyframes chapter-banner-out {
+      from {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+      }
+      to {
+        opacity: 0;
+        scale: 1.05;
+        translate: 0 -28px;
+      }
+    }
+
+    .chapter-banner h2,
+    .chapter-banner p {
+      animation:
+        chapter-banner-in auto linear backwards,
+        chapter-banner-out auto linear forwards;
+      animation-timeline: view();
+      animation-range:
+        entry 0% cover 36%,
+        exit 12% exit 100%;
+    }
+
+    @keyframes chapter-glyph-in {
+      from {
+        opacity: 0;
+        scale: 0.72;
+      }
+      to {
+        opacity: 1;
+        scale: 1;
+      }
+    }
+
+    @keyframes chapter-glyph-out {
+      from {
+        opacity: 1;
+        scale: 1;
+      }
+      to {
+        opacity: 0;
+        scale: 1.24;
+      }
+    }
+
+    .chapter-glyph {
+      animation:
+        chapter-glyph-in auto linear backwards,
+        chapter-glyph-out auto linear forwards;
+      animation-timeline: view();
+      animation-range:
+        entry 0% cover 40%,
+        exit 5% exit 100%;
     }
   }
 }
@@ -1561,23 +1903,44 @@ button {
   }
 }
 
-/* Fallback Banner Reveal when Scroll-Driven View Timelines are Unsupported */
-.chapter-banner h2.banner-pending,
-.chapter-banner p.banner-pending {
-  opacity: 0.25;
-  scale: 0.94;
-  translate: 0 16px;
+/* Bidirectional Fallback States when CSS Scroll-Driven View Timelines are Unsupported */
+.scroll-fallback-enabled .scroll-stage {
+  opacity: 0;
+  scale: 0.92;
+  translate: 0 34px;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.chapter-banner h2.banner-visible,
-.chapter-banner p.banner-visible {
+.scroll-fallback-enabled .scroll-stage.stage-exit-top {
+  translate: 0 -24px;
+  scale: 0.95;
+}
+
+.scroll-fallback-enabled .scroll-stage.stage-visible {
   opacity: 1;
   scale: 1;
   translate: 0 0;
+}
+
+.scroll-fallback-enabled .chapter-banner h2,
+.scroll-fallback-enabled .chapter-banner p {
+  opacity: 0.18;
+  scale: 0.92;
+  translate: 0 20px;
   transition:
-    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    scale 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-fallback-enabled .chapter-banner h2.banner-visible,
+.scroll-fallback-enabled .chapter-banner p.banner-visible {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
 }
 
 /* ==========================================================================
@@ -1599,6 +1962,7 @@ button {
   .feature-split-card { grid-template-columns: 1fr; }
   .nav-actions .btn-coffee,
   .nav-actions .btn-ghost { display: none; }
+  .scroll-stage { --stagger: 0% !important; }
 }
 
 @media (max-width: 760px) {
@@ -1609,14 +1973,21 @@ button {
     max-width: 420px;
     padding: 8px 0 28px;
     align-items: start;
+    perspective: none;
+    transform-style: flat;
   }
 
   .hero-phone {
     width: 100%;
     --rest-y: 0px;
+    --scroll-x: 0px;
     --scroll-y: 0px;
+    --rest-ry: 0deg;
+    --rest-rz: 0deg;
+    --rest-tz: 0px;
     translate: 0 0;
     rotate: 0deg;
+    transform: none;
     opacity: 1;
     border-radius: 24px;
     padding: 6px;
@@ -1668,9 +2039,17 @@ button {
     width: 34px;
     height: 34px;
   }
+
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .studio-slide-img, .bento-card, .showcase-card, .hero-phone, .btn { transition: none; }
+  .studio-slide-img, .bento-card, .showcase-card, .hero-phone, .btn, .back-to-top { transition: none; }
+  .tilt-3d { transform: none !important; }
 }

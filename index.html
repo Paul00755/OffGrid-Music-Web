@@ -170,6 +170,7 @@
         </button>
       </div>
     </div>
+    <div class="scroll-progress-bar" aria-hidden="true"></div>
   </header>
 
   <!-- Mobile Navigation Drawer -->
@@ -193,64 +194,66 @@
     <section class="hero">
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="container hero-inner">
-        <div class="hero-badge hero-animate">
-          <span class="dot" aria-hidden="true"></span>
-          <span data-apk-version>Android 7.0+</span>
-          <span>·</span>
-          <span>100% Offline &amp; Ad-Free</span>
+        <div class="hero-copy">
+          <div class="hero-badge hero-animate">
+            <span class="dot" aria-hidden="true"></span>
+            <span data-apk-version>Android 7.0+</span>
+            <span>·</span>
+            <span>100% Offline &amp; Ad-Free</span>
+          </div>
+
+          <h1 class="hero-animate">
+            Your Music.<br><span class="grad-text">Your Way.</span>
+          </h1>
+
+          <p class="hero-sub hero-animate">
+            An offline-first, ad-free Android music player built for listeners who want studio-grade sound, 15 customizable UI layouts, real-time synced lyrics widgets, and complete control over their local library.
+          </p>
+
+          <div class="hero-ctas hero-animate">
+            <a href="https://github.com/Paul00755/OffGrid-Music/releases/latest" data-apk-download target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+              Download Latest APK
+            </a>
+            <a href="https://github.com/Paul00755/OffGrid-Music" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg">
+              View GitHub Repo
+            </a>
+            <a href="#ui-studio" class="btn btn-ghost btn-lg">
+              Explore 15 UI Layouts ↓
+            </a>
+          </div>
+
+          <div class="hero-meta hero-animate mono">
+            <span>15 UI Layouts</span>
+            <span>•</span>
+            <span>5 Adaptive Widgets</span>
+            <span>•</span>
+            <span>12 Audio Formats</span>
+            <span>•</span>
+            <span>Zero Subscriptions</span>
+          </div>
         </div>
 
-        <h1 class="hero-animate">
-          Your Music.<br><span class="grad-text">Your Way.</span>
-        </h1>
-
-        <p class="hero-sub hero-animate">
-          An offline-first, ad-free Android music player built for listeners who want studio-grade sound, 15 customizable UI layouts, real-time synced lyrics widgets, and complete control over their local library.
-        </p>
-
-        <div class="hero-ctas hero-animate">
-          <a href="https://github.com/Paul00755/OffGrid-Music/releases/latest" data-apk-download target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-            Download Latest APK
-          </a>
-          <a href="https://github.com/Paul00755/OffGrid-Music" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg">
-            View GitHub Repo
-          </a>
-          <a href="#ui-studio" class="btn btn-ghost btn-lg">
-            Explore 15 UI Layouts ↓
-          </a>
-        </div>
-
-        <div class="hero-meta hero-animate mono">
-          <span>15 UI Layouts</span>
-          <span>•</span>
-          <span>5 Adaptive Widgets</span>
-          <span>•</span>
-          <span>12 Audio Formats</span>
-          <span>•</span>
-          <span>Zero Subscriptions</span>
-        </div>
-
-        <!-- 4-Phone Showcase Stage: Home, Now Playing, Lyrics, Playlist -->
+        <!-- 4-Phone 3D Showcase Stage: Home, Now Playing, Lyrics, Playlist -->
         <div class="hero-stage">
-          <div class="phone-frame hero-phone hero-phone-outer-left">
+          <div class="phone-frame hero-phone hero-phone-outer-left tilt-3d">
             <div class="phone-screen">
               <img src="assets/screenshots/home-hero-spotlight.webp" alt="OffGrid Music Hero Spotlight Home screen" width="860" height="1921" fetchpriority="high" decoding="async">
             </div>
           </div>
 
-          <div class="phone-frame hero-phone hero-phone-inner-left">
+          <div class="phone-frame hero-phone hero-phone-inner-left tilt-3d">
             <div class="phone-screen">
               <img src="assets/screenshots/np-modern-bento.webp" alt="OffGrid Music Modern Bento Now Playing screen" width="860" height="1921" fetchpriority="high" decoding="async">
             </div>
           </div>
 
-          <div class="phone-frame hero-phone hero-phone-inner-right">
+          <div class="phone-frame hero-phone hero-phone-inner-right tilt-3d">
             <div class="phone-screen">
               <img src="assets/screenshots/lyrics-fluid-glow.webp" alt="OffGrid Music Fluid Glow Synced Lyrics screen" width="860" height="1921" decoding="async">
             </div>
           </div>
 
-          <div class="phone-frame hero-phone hero-phone-outer-right">
+          <div class="phone-frame hero-phone hero-phone-outer-right tilt-3d">
             <div class="phone-screen">
               <img src="assets/screenshots/playlists-bento-grid.webp" alt="OffGrid Music Bento Collections Playlists screen" width="739" height="2000" decoding="async">
             </div>
@@ -262,14 +265,14 @@
     <!-- Bento Highlights Grid (Uncropped Full-Visibility Screenshots) -->
     <section class="section" id="highlights">
       <div class="container">
-        <div class="section-header center reveal-up">
+        <div class="section-header center scroll-stage">
           <span class="kicker">Built for Comfort &amp; Control</span>
           <h2 class="section-title">Everything a flagship offline music player should be.</h2>
           <p class="section-desc">No forced streaming catalogs, no ads interrupting your albums, and no outdated UI stuck in 2015.</p>
         </div>
 
         <div class="bento-grid">
-          <article class="bento-card bento-card-split bento-span-7 reveal-up">
+          <article class="bento-card bento-card-split bento-span-7 scroll-stage tilt-3d" style="--stagger: 0%;">
             <div>
               <div class="bento-stat grad-text">15 UI Layouts</div>
               <h3>Live Screen Layout Studio</h3>
@@ -280,7 +283,7 @@
             </div>
           </article>
 
-          <article class="bento-card bento-span-5 reveal-up">
+          <article class="bento-card bento-span-5 scroll-stage tilt-3d" style="--stagger: 4%;">
             <div>
               <div class="bento-stat" style="color: var(--emerald);">Live .LRC</div>
               <h3>Home Screen Live Lyrics Widget</h3>
@@ -291,7 +294,7 @@
             </div>
           </article>
 
-          <article class="bento-card bento-span-4 reveal-up">
+          <article class="bento-card bento-span-4 scroll-stage tilt-3d" style="--stagger: 0%;">
             <div>
               <div class="bento-stat" style="color: var(--cyan-bright);">0–12s</div>
               <h3>Equal-Power Crossfade &amp; 5-Band EQ</h3>
@@ -299,7 +302,7 @@
             </div>
           </article>
 
-          <article class="bento-card bento-span-4 reveal-up">
+          <article class="bento-card bento-span-4 scroll-stage tilt-3d" style="--stagger: 4%;">
             <div>
               <div class="bento-stat" style="color: var(--violet-bright);">2–10</div>
               <h3>OffGrid Jam — Listen Together</h3>
@@ -307,7 +310,7 @@
             </div>
           </article>
 
-          <article class="bento-card bento-span-4 reveal-up">
+          <article class="bento-card bento-span-4 scroll-stage tilt-3d" style="--stagger: 8%;">
             <div>
               <div class="bento-stat" style="color: var(--rose);">12 Formats</div>
               <h3>Lossless &amp; Local Ready</h3>
@@ -322,18 +325,19 @@
     </section>
 
     <!-- Chapter I Banner -->
-    <div class="chapter-banner" style="--chapter-glow: rgba(139, 92, 246, 0.24);">
+    <div class="chapter-banner" style="--chapter-glow: rgba(139, 92, 246, 0.26);">
+      <span class="chapter-glyph" aria-hidden="true">01</span>
       <div>
         <span class="kicker">Chapter 01 · Interactive UI Studio</span>
         <h2 class="grad-text">15 Screens. One Player.</h2>
-        <p>Select any screen category below to explore its layouts cleanly—each option updates the live phone preview instantly.</p>
+        <p>Select any screen category below to explore its layouts cleanly—each option updates the live 3D phone preview instantly.</p>
       </div>
     </div>
 
     <!-- Chapter I: Category-Filtered Interactive UI Studio -->
-    <section class="ui-studio-section" id="ui-studio">
+    <section class="ui-studio-section" id="ui-studio" data-studio-cat="nowplaying">
       <div class="container">
-        <div class="ui-category-bar" role="tablist" aria-label="UI Layout Categories">
+        <div class="ui-category-bar reveal-up" role="tablist" aria-label="UI Layout Categories">
           <button type="button" class="cat-btn active" role="tab" aria-selected="true" tabindex="0" data-cat="nowplaying">Now Playing (4)</button>
           <button type="button" class="cat-btn" role="tab" aria-selected="false" tabindex="-1" data-cat="home">Home Screens (4)</button>
           <button type="button" class="cat-btn" role="tab" aria-selected="false" tabindex="-1" data-cat="lyrics">Lyrics UI (3)</button>
@@ -341,9 +345,11 @@
         </div>
 
         <div class="studio-grid">
-          <!-- Phone Preview Bezel -->
-          <div class="studio-phone-col reveal-up">
-            <div class="phone-frame studio-phone">
+          <!-- Sticky 3D Phone Preview Bezel -->
+          <div class="studio-phone-col">
+            <div class="studio-phone-stage scroll-stage">
+              <div class="studio-aura" aria-hidden="true"></div>
+              <div class="phone-frame studio-phone tilt-3d">
               <div class="studio-screen-stack">
                 <!-- 4 Now Playing -->
                 <img class="studio-slide-img active" data-layout="np-modern-bento" src="assets/screenshots/np-modern-bento.webp" alt="Now Playing: Modern Bento layout" width="860" height="1921" loading="lazy" decoding="async">
@@ -370,10 +376,11 @@
               <div class="studio-caption-cat" id="studio-caption-cat">Now Playing · 1 / 4</div>
               <div class="studio-caption-name" id="studio-caption-name">Modern Bento</div>
             </div>
+            </div>
           </div>
 
           <!-- Filtered Option Cards (Shows ONLY 4, 4, 3, or 4 cards for active tab) -->
-          <div class="reveal-up">
+          <div class="studio-steps-col scroll-stage">
             <div class="studio-steps">
               <!-- NOW PLAYING (4) -->
               <div class="studio-step active" data-layout="np-modern-bento" data-cat-key="nowplaying" data-category="Now Playing · 1 / 4" data-title="Modern Bento">
@@ -524,7 +531,7 @@
 
         <!-- Theme Engine & Home Feed Customization Extras -->
         <div class="studio-extras">
-          <div class="feature-split-card reveal-up">
+          <div class="feature-split-card scroll-stage tilt-3d" style="--stagger: 0%;">
             <div>
               <span class="kicker">Color Palette Engine</span>
               <h3>AMOLED Black, RGB Wheel &amp; Frosted Glass</h3>
@@ -535,7 +542,7 @@
             </div>
           </div>
 
-          <div class="feature-split-card reveal-up">
+          <div class="feature-split-card scroll-stage tilt-3d" style="--stagger: 4%;">
             <div>
               <span class="kicker">Feed &amp; Navigation Control</span>
               <h3>Reorder Your Home Feed &amp; Bottom Bar</h3>
@@ -550,7 +557,8 @@
     </section>
 
     <!-- Chapter II Banner -->
-    <div class="chapter-banner" style="--chapter-glow: rgba(16, 185, 129, 0.2);">
+    <div class="chapter-banner" style="--chapter-glow: rgba(16, 185, 129, 0.24);">
+      <span class="chapter-glyph" aria-hidden="true">02</span>
       <div>
         <span class="kicker">Chapter 02 · Real-Time Synced Lyrics</span>
         <h2 class="grad-text">Lyrics on Your Home Screen.</h2>
@@ -562,7 +570,7 @@
     <section class="section" id="live-lyrics">
       <div class="container">
         <div class="widget-videos-grid">
-          <article class="widget-video-card reveal-up">
+          <article class="widget-video-card scroll-stage tilt-3d" style="--stagger: 0%;">
             <div class="widget-video-head">
               <h3>Live Lyrics Widget — English</h3>
               <span class="widget-pill">LIVE CAPTURE</span>
@@ -575,7 +583,7 @@
             <p>Real-time synced <code>.lrc</code> line highlighting with dynamic artwork accent colors, heart toggle, skip controls, and live progress bar right on your Android launcher.</p>
           </article>
 
-          <article class="widget-video-card reveal-up">
+          <article class="widget-video-card scroll-stage tilt-3d" style="--stagger: 4%;">
             <div class="widget-video-head">
               <h3>Live Lyrics Widget — Tamil</h3>
               <span class="widget-pill">MULTI-LANGUAGE</span>
@@ -591,7 +599,7 @@
 
         <!-- Uncropped Full-Visibility Widget Pack & Find Lyrics Cards -->
         <div class="lyrics-subgrid">
-          <article class="bento-card reveal-up">
+          <article class="bento-card scroll-stage tilt-3d" style="--stagger: 0%;">
             <div>
               <span class="kicker">5 Adaptive Widgets</span>
               <h3>Full Artwork, Small, Medium, Secondary &amp; Live Lyrics</h3>
@@ -602,7 +610,7 @@
             </div>
           </article>
 
-          <article class="bento-card reveal-up">
+          <article class="bento-card scroll-stage tilt-3d" style="--stagger: 4%;">
             <div>
               <span class="kicker">Multi-Source Sync</span>
               <h3>Find Synced Lyrics in One Tap</h3>
@@ -617,7 +625,8 @@
     </section>
 
     <!-- Chapter III Banner -->
-    <div class="chapter-banner" style="--chapter-glow: rgba(6, 182, 212, 0.22);">
+    <div class="chapter-banner" style="--chapter-glow: rgba(6, 182, 212, 0.24);">
+      <span class="chapter-glyph" aria-hidden="true">03</span>
       <div>
         <span class="kicker">Chapter 03 · Audio Engine &amp; Sonic Studio</span>
         <h2 class="grad-text">Studio Sound. Zero Compromise.</h2>
@@ -629,7 +638,7 @@
     <section class="section" id="audio-engine">
       <div class="container">
         <div class="audio-showcase">
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 0%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-audio-eq.webp" alt="OffGrid Music Audio and Sound settings with Crossfade, Gapless, and 5-Band Equalizer" width="494" height="2000" loading="lazy" decoding="async">
             </div>
@@ -643,7 +652,7 @@
             </ul>
           </article>
 
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 4%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-sonic-studio.webp" alt="OffGrid Music Sonic Studio menu with A-B Loop, Audio Pins, DNA Radio, and Repeat This Song" width="860" height="1921" loading="lazy" decoding="async">
             </div>
@@ -657,7 +666,7 @@
             </ul>
           </article>
 
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 8%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-waveforms.webp" alt="OffGrid Music 7 Waveform and Seekbar styles selector" width="860" height="1921" loading="lazy" decoding="async">
             </div>
@@ -674,7 +683,8 @@
     </section>
 
     <!-- Chapter IV Banner -->
-    <div class="chapter-banner" style="--chapter-glow: rgba(244, 114, 182, 0.2);">
+    <div class="chapter-banner" style="--chapter-glow: rgba(244, 114, 182, 0.24);">
+      <span class="chapter-glyph" aria-hidden="true">04</span>
       <div>
         <span class="kicker">Chapter 04 · Insights &amp; Cloud Sync</span>
         <h2 class="grad-text">Your Year in Sound. Any Day.</h2>
@@ -686,7 +696,7 @@
     <section class="section" id="insights">
       <div class="container">
         <div class="audio-showcase">
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 0%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-listening-insights.webp" alt="OffGrid Music Listening Insights with 92h playtime, 33 day streak, and listening pace" width="558" height="2000" loading="lazy" decoding="async">
             </div>
@@ -694,7 +704,7 @@
             <p>Track total playtime, active streaks, daily pace comparisons, Top Tracks, Top Artists, and custom track-completion thresholds across Today, 7 Days, 30 Days, or All Time.</p>
           </article>
 
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 4%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-wrapped-story.webp" alt="OffGrid Music 6-Slide Interactive Wrapped Story showing Night Owl Explorer archetype" width="860" height="1921" loading="lazy" decoding="async">
             </div>
@@ -702,7 +712,7 @@
             <p>Launch an animated Wrapped Story for any preset or custom Calendar date range, discover your Listener Archetype, and export high-resolution stats cards in one tap.</p>
           </article>
 
-          <article class="showcase-card reveal-up">
+          <article class="showcase-card scroll-stage tilt-3d" style="--stagger: 8%;">
             <div class="showcase-img-wrap">
               <img src="assets/screenshots/feature-cloud-backup.webp" alt="OffGrid Music Optional Encrypted Cloud Backup and Sync settings" width="860" height="1921" loading="lazy" decoding="async">
             </div>
@@ -716,12 +726,12 @@
     <!-- Comparison Table -->
     <section class="section" id="compare">
       <div class="container">
-        <div class="section-header center reveal-up">
+        <div class="section-header center scroll-stage">
           <span class="kicker">Why Switch to OffGrid</span>
           <h2 class="section-title">How OffGrid compares to typical offline players.</h2>
         </div>
 
-        <div class="compare-wrap reveal-up" role="region" aria-label="Feature comparison table" tabindex="0">
+        <div class="compare-wrap scroll-stage" role="region" aria-label="Feature comparison table" tabindex="0">
           <table class="compare-table">
             <thead>
               <tr>
@@ -979,6 +989,12 @@
     </section>
 
   </main>
+
+  <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 
   <!-- Footer -->
   <footer class="site-footer">
