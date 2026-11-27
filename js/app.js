@@ -260,7 +260,7 @@ function initUIStudio() {
   selectCategory("nowplaying");
 }
 
-/* 6. Categorized 14-Question FAQ + Expand/Collapse All */
+/* 6. Categorized 16-Question FAQ + Expand/Collapse All */
 function initFAQ() {
   const filterBtns = Array.from(document.querySelectorAll(".faq-filter-btn"));
   const items = Array.from(document.querySelectorAll(".faq-item"));
@@ -269,7 +269,13 @@ function initFAQ() {
 
   if (!items.length) return;
 
-  let allExpanded = false;
+  function syncExpandBtnState() {
+    if (!expandBtn) return;
+    const visibleItems = items.filter((item) => !item.classList.contains("hidden-faq"));
+    const allOpen = visibleItems.length > 0 && visibleItems.every((item) => item.open);
+    expandBtn.textContent = allOpen ? "Collapse all" : "Expand all";
+    expandBtn.setAttribute("aria-expanded", String(allOpen));
+  }
 
   function applyFilter(cat) {
     let visible = 0;
@@ -287,6 +293,7 @@ function initFAQ() {
       btn.setAttribute("aria-selected", String(isActive));
       btn.setAttribute("tabindex", isActive ? "0" : "-1");
     });
+    syncExpandBtnState();
   }
 
   filterBtns.forEach((btn) => {
@@ -299,17 +306,18 @@ function initFAQ() {
     applyFilter(tab.dataset.faqFilter);
   });
 
+  items.forEach((item) => {
+    item.addEventListener("toggle", syncExpandBtnState);
+  });
+
   if (expandBtn) {
-    expandBtn.setAttribute("aria-expanded", "false");
     expandBtn.addEventListener("click", () => {
-      allExpanded = !allExpanded;
-      items.forEach((item) => {
-        if (!item.classList.contains("hidden-faq")) {
-          item.open = allExpanded;
-        }
+      const visibleItems = items.filter((item) => !item.classList.contains("hidden-faq"));
+      const shouldOpen = !visibleItems.every((item) => item.open);
+      visibleItems.forEach((item) => {
+        item.open = shouldOpen;
       });
-      expandBtn.textContent = allExpanded ? "Collapse all" : "Expand all";
-      expandBtn.setAttribute("aria-expanded", String(allExpanded));
+      syncExpandBtnState();
     });
   }
 

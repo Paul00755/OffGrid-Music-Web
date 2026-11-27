@@ -106,123 +106,6 @@
           "name": "Paul00755",
           "url": "https://github.com/Paul00755"
         }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "The app is not published on the Google Play Store. Is it really safe to use?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. OffGrid Music is completely open source on GitHub with zero ads, zero trackers, and zero hidden permissions. Every APK is built and published transparently through GitHub Releases so anyone can inspect the source code and verify every build."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "In what ways can I sign in to OffGrid Music?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "You can sign in with Google Sign-In or create an Email and Password account, or skip sign-in completely and use OffGrid Music 100% locally with no account required."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "If I use Google Sign-In, will my data get stolen?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Google Sign-In is used solely to authenticate your optional cloud backup account. OffGrid Music never accesses your Gmail, Drive, or contacts, never sells data, and never uploads your local audio files."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What data is backed up when I sign in?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Your Favorites, Custom Playlists, Smart Playlists, Listening Statistics and History, Synced Lyrics and Per-Song Timing Offsets, Folder Include/Exclude Rules, Custom Home Feed Configurations, and App Preferences (theme and audio EQ). Your actual MP3/FLAC music files and any personal Gemini API key are never uploaded."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Where is my backed-up data stored?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Backups are stored as an encrypted cloud snapshot tied strictly to your authenticated Firebase account. You can trigger Backup Now, Sync / Restore Now, or schedule automatic Daily, Weekly, or Monthly backups, or export local JSON backups anytime."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does Off-Grid Jam work?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "OffGrid Jam lets 2 to 10 friends listen in real-time sync. Host a room and share the Invite Code, Invite Link, or QR Code. Participants stay synced to playback, and approved local songs (up to 25 MB) can be shared directly device-to-device without uploading your library to cloud storage."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is my Gemini API key safe?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. AI Lyrics Studio is turned off by default. If you choose to connect your own Gemini API key, it is stored encrypted strictly on your device and is excluded from all cloud backups and diagnostics exports."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I get and add a Gemini API key for lyrics translation or transcription?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Create a free API key in Google AI Studio, open OffGrid Music Settings -> Lyrics & AI Studio, enable Optional Gemini AI Lyrics Studio, and paste your key. Once active, you can translate synced lyrics into English, Tamil/Tanglish, Hindi, or Malayalam, or transcribe audio into timestamped .lrc lyrics with one-tap Undo."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "I'm facing API key errors — what should I do?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Double-check that your key has no extra spaces, has not hit its free-tier rate limit in Google AI Studio, and that your device has an active internet connection when running AI translation or transcription. If the issue persists, generate a fresh key or email offgridmusicsupport@gmail.com with a screenshot."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is Smart Shuffle (Smart Queue) and how does it work?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Smart Shuffle and Sonic DNA Radio analyze your library and currently playing track's vibe to build fresh, balanced queues without repeating the same handful of songs back-to-back, while keeping full 1:1 drag-and-drop control over your Up Next queue."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does OffGrid Music work completely offline?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Playing local music across 12 formats including MP3, FLAC, OPUS, WAV, M4A, and AIFF, synced .lrc lyrics, 5-Band EQ, Wrapped Stats, Playlists, and Home Screen Widgets all work 100% offline."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Why are some of my local audio files not appearing in my library?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Check two settings in Library & Scanner: (1) Short Audio Clip Filter (set between 0-180s to hide ringtones/voice notes — lower it if short tracks are filtered out), and (2) Folder Include / Exclude Rules to ensure the folder containing your songs is included, then tap refresh or run a scan."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How can I customize the Home Feed, Bottom Bar, or Now Playing screen?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Open Settings -> Screen Layout Studio to preview and switch between 4 Now Playing, 4 Home, 4 Playlists, and 3 Lyrics UI layouts (including Combo View). In Appearance & Home Feed settings, you can also show/hide/reorder Home sections, rearrange the 5 bottom bar tabs, and pick from 7 waveform styles and 4 mini-player styles."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Will installing a new app update delete my playlists, favorites, or settings?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Install any newer OffGrid Music APK directly over your existing app without uninstalling first. All of your playlists, favorites, synced lyrics offsets, custom cover art, listening stats, and settings stay right where you left them."
-            }
-          }
-        ]
       }
     ]
   }
@@ -245,7 +128,7 @@
           <li><a href="#live-lyrics">Live Lyrics</a></li>
           <li><a href="#audio-engine">Audio</a></li>
           <li><a href="#insights">Insights</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="faq.html">FAQ</a></li>
         </ul>
       </nav>
 
@@ -294,7 +177,7 @@
     <a href="#live-lyrics">Live Lyrics &amp; Widgets</a>
     <a href="#audio-engine">Audio Engine</a>
     <a href="#insights">Wrapped Stats &amp; Cloud</a>
-    <a href="#faq">FAQ &amp; Support</a>
+    <a href="faq.html">FAQ &amp; APK Guide</a>
     <div class="drawer-ctas">
       <a href="https://github.com/Paul00755/OffGrid-Music/releases/latest" data-apk-download target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download APK</a>
       <a href="https://github.com/Paul00755/OffGrid-Music" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub Repo</a>
@@ -896,172 +779,19 @@
       </div>
     </section>
 
-    <!-- Complete 14-Question Categorized FAQ + Support Email Card -->
+    <!-- Dedicated FAQ Page Prompt + Support Email Card -->
     <section class="section" id="faq">
       <div class="container">
-        <div class="section-header center reveal-up">
-          <span class="kicker">Help, FAQ &amp; Feedback</span>
-          <h2 class="section-title">Frequently Asked Questions</h2>
-          <p class="section-desc">App safety, Google Sign-In, cloud backups, Off-Grid Jam, Gemini AI API key help, playback tips &amp; more.</p>
-        </div>
-
-        <div class="faq-toolbar reveal-up">
-          <div class="faq-filter-bar" role="tablist" aria-label="FAQ Categories">
-            <button type="button" class="faq-filter-btn active" role="tab" aria-selected="true" data-faq-filter="all">All</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="trust">Trust &amp; Safety</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="account">Account &amp; Backup</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="jam">Off-Grid Jam</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="ai">AI &amp; Lyrics</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="playback">Playback &amp; Library</button>
-            <button type="button" class="faq-filter-btn" role="tab" aria-selected="false" data-faq-filter="updates">Updates &amp; Tips</button>
+        <div class="faq-callout-card reveal-up">
+          <span class="kicker">APK Install Guide · Play Protect · 16 Answers</span>
+          <h2 class="faq-callout-title grad-text">FAQ?</h2>
+          <p class="faq-callout-sub">Frequently Asked Questions</p>
+          <p class="faq-callout-desc">Check this to find quick answers you might be looking for — including how to download &amp; install the APK, browser warning explanations, and app features.</p>
+          <div class="cta-actions">
+            <a href="faq.html" class="btn btn-primary btn-lg">
+              Open FAQ &amp; APK Install Guide →
+            </a>
           </div>
-        </div>
-
-        <div class="faq-meta-row reveal-up">
-          <span class="mono" id="faq-count">14 questions</span>
-          <button type="button" class="faq-expand-btn" id="faq-expand-all">Expand all</button>
-        </div>
-
-        <div class="faq-list reveal-up">
-          <details class="faq-item" data-faq-cat="trust">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Trust &amp; Safety</span>
-                <span class="faq-q-text">The app is not published on the Google Play Store. Is it really safe to use?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Yes. OffGrid Music is completely open source on GitHub with zero ads, zero trackers, and zero hidden permissions. Every APK is built and published transparently through GitHub Releases so anyone can inspect the source code and verify every build.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="account">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Account &amp; Backup</span>
-                <span class="faq-q-text">In what ways can I sign in to OffGrid Music?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">You can sign in with <strong>Google Sign-In</strong> or create an <strong>Email &amp; Password</strong> account—or skip sign-in completely and use OffGrid Music 100% locally with no account required.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="trust">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Trust &amp; Safety</span>
-                <span class="faq-q-text">If I use Google Sign-In, will my data get stolen?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">No. Google Sign-In is used solely to authenticate your optional cloud backup account. OffGrid Music never accesses your Gmail, Drive, or contacts, never sells data, and never uploads your local audio files.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="account">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Account &amp; Backup</span>
-                <span class="faq-q-text">What data is backed up when I sign in?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Your Favorites, Custom Playlists, Smart Playlists, Listening Statistics &amp; History, Synced Lyrics &amp; Per-Song Timing Offsets, Folder Include/Exclude Rules, Custom Home Feed Configurations, and App Preferences (theme &amp; audio EQ). Your actual MP3/FLAC music files and any personal Gemini API key are never uploaded.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="account">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Account &amp; Backup</span>
-                <span class="faq-q-text">Where is my backed-up data stored?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Backups are stored as an encrypted cloud snapshot tied strictly to your authenticated Firebase account. You can trigger <strong>Backup Now</strong>, <strong>Sync / Restore Now</strong>, or schedule automatic Daily, Weekly, or Monthly backups—or export local JSON backups anytime.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="jam">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Off-Grid Jam</span>
-                <span class="faq-q-text">How does Off-Grid Jam work?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">OffGrid Jam lets 2 to 10 friends listen in real-time sync. Host a room and share the Invite Code, Invite Link, or QR Code. Participants stay synced to playback, and approved local songs (up to 25 MB) can be shared directly device-to-device without uploading your library to cloud storage.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="ai">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">AI &amp; Lyrics</span>
-                <span class="faq-q-text">Is my Gemini API key safe?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Yes. AI Lyrics Studio is turned off by default. If you choose to connect your own Gemini API key, it is stored encrypted strictly on your device and is excluded from all cloud backups and diagnostics exports.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="ai">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">AI &amp; Lyrics</span>
-                <span class="faq-q-text">How do I get and add a Gemini API key for lyrics translation or transcription?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Create a free API key in Google AI Studio, open OffGrid Music Settings → Lyrics &amp; AI Studio, enable Optional Gemini AI Lyrics Studio, and paste your key. Once active, you can translate synced lyrics into English, Tamil/Tanglish, Hindi, or Malayalam—or transcribe audio into timestamped <code>.lrc</code> lyrics with one-tap Undo.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="ai">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">AI &amp; Lyrics</span>
-                <span class="faq-q-text">I'm facing API key errors — what should I do?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Double-check that your key has no extra spaces, hasn't hit its free-tier rate limit in Google AI Studio, and that your device has an active internet connection when running AI translation/transcription. If the issue persists, generate a fresh key or email us a screenshot at <strong>offgridmusicsupport@gmail.com</strong>.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="playback">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Playback &amp; Library</span>
-                <span class="faq-q-text">What is Smart Shuffle (Smart Queue) and how does it work?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Smart Shuffle and Sonic DNA Radio analyze your library and currently playing track's vibe to build fresh, balanced queues without repeating the same handful of songs back-to-back—while keeping full 1:1 drag-and-drop control over your Up Next queue.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="playback">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Playback &amp; Library</span>
-                <span class="faq-q-text">Does OffGrid Music work completely offline?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Yes! Playing local music (across 12 formats including MP3, FLAC, OPUS, WAV, M4A, and AIFF), synced <code>.lrc</code> lyrics, 5-Band EQ, Wrapped Stats, Playlists, and Home Screen Widgets all work 100% offline—perfect for flights, commutes, and off-grid listening.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="playback">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Playback &amp; Library</span>
-                <span class="faq-q-text">Why are some of my local audio files not appearing in my library?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Check two settings in Library &amp; Scanner: (1) <strong>Short Audio Clip Filter</strong> (set between 0–180s to hide ringtones/voice notes—lower it if short tracks are filtered out), and (2) <strong>Folder Include / Exclude Rules</strong> to ensure the folder containing your songs is included, then tap refresh or run a scan.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="playback">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Playback &amp; Library</span>
-                <span class="faq-q-text">How can I customize the Home Feed, Bottom Bar, or Now Playing screen?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">Open <strong>Settings → Screen Layout Studio</strong> to preview and switch between 4 Now Playing, 4 Home, 4 Playlists, and 3 Lyrics UI layouts (including Combo View). In Appearance &amp; Home Feed settings, you can also show/hide/reorder Home sections, rearrange the 5 bottom bar tabs, and pick from 7 waveform styles and 4 mini-player styles.</div>
-          </details>
-
-          <details class="faq-item" data-faq-cat="updates">
-            <summary>
-              <div class="faq-q-wrap">
-                <span class="faq-cat-label">Updates &amp; Tips</span>
-                <span class="faq-q-text">Will installing a new app update delete my playlists, favorites, or settings?</span>
-              </div>
-            </summary>
-            <div class="faq-answer">No. Install any newer OffGrid Music APK directly over your existing app—do not uninstall first. All of your playlists, favorites, synced lyrics offsets, custom cover art, listening stats, and settings stay right where you left them.</div>
-          </details>
         </div>
 
         <!-- Queries, Bug Reports & Feature Suggestions Card -->
@@ -1121,6 +851,7 @@
         <a href="https://github.com/Paul00755/OffGrid-Music/releases/latest" data-apk-download target="_blank" rel="noopener noreferrer">Download APK</a>
         <a href="https://github.com/Paul00755/OffGrid-Music" target="_blank" rel="noopener noreferrer">GitHub Source</a>
         <a href="https://buymeacoffee.com/paulrajmes9" data-bmc-link target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+        <a href="faq.html">FAQ &amp; Install Guide</a>
         <a href="mailto:offgridmusicsupport@gmail.com">Support Email</a>
         <a href="privacy.html">Privacy Policy</a>
       </div>
