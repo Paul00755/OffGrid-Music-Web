@@ -1,9 +1,9 @@
 /**
  * OffGrid Music — Interactive Showcase Controller
- * Handles Dark/Light theme, Sticky 3D UI Studio, 14-Question FAQ,
+ * Handles Dark/Light theme, Sticky 3D UI Studio, 16-Question FAQ,
  * Support Email Copy, Viewport-aware Video Playback, 3D Pointer Tilt,
  * Back-to-Top control, Bidirectional Scroll-Driven / IntersectionObserver
- * Reveal & Auto-Hide System, and live GitHub Releases APK sync.
+ * 3D Reveal & Auto-Hide System, and live GitHub Releases APK sync.
  */
 const SITE_CONFIG = {
   GITHUB_REPO: "Paul00755/OffGrid-Music",
@@ -26,12 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchLatestGitHubRelease();
 });
 
-/* 1. Dark / Light Mode Toggle (persists in localStorage) */
+/* 1. Dark / Light Mode Toggle (persists in localStorage + syncs color-scheme) */
 function initThemeToggle() {
   const root = document.documentElement;
   const saved = localStorage.getItem("offgrid-theme");
   const initialTheme = saved === "light" || saved === "dark" ? saved : "dark";
   root.setAttribute("data-theme", initialTheme);
+  root.style.colorScheme = initialTheme;
 
   const toggleBtns = document.querySelectorAll("[data-theme-toggle]");
   toggleBtns.forEach((btn) => {
@@ -39,6 +40,7 @@ function initThemeToggle() {
       const current = root.getAttribute("data-theme") || "dark";
       const next = current === "dark" ? "light" : "dark";
       root.setAttribute("data-theme", next);
+      root.style.colorScheme = next;
       localStorage.setItem("offgrid-theme", next);
     });
   });
@@ -88,7 +90,6 @@ function initNavbar() {
     });
   }
 
-  // Highlight active section in top nav
   if (navLinks.length && "IntersectionObserver" in window) {
     const linkById = new Map();
     navLinks.forEach((link) => {
@@ -150,7 +151,7 @@ function bindTablistKeyboard(tabs, onSelect) {
   });
 }
 
-/* 5. Interactive Sticky 3D UI Studio (shows ONLY 4 / 4 / 3 / 4 options for selected tab) */
+/* 5. Interactive Sticky 3D UI Studio */
 function initUIStudio() {
   const studioSection = document.getElementById("ui-studio");
   const steps = Array.from(document.querySelectorAll(".studio-step"));
@@ -187,7 +188,6 @@ function initUIStudio() {
       studioSection.setAttribute("data-studio-cat", catKey);
     }
 
-    // Update top category tabs
     catBtns.forEach((btn) => {
       const isActive = btn.dataset.cat === catKey;
       btn.classList.toggle("active", isActive);
@@ -198,7 +198,6 @@ function initUIStudio() {
       }
     });
 
-    // Show ONLY the 3 or 4 cards belonging to this category
     const matchingSteps = [];
     steps.forEach((step) => {
       const match = step.dataset.catKey === catKey;
@@ -217,19 +216,15 @@ function initUIStudio() {
       nextCatBtn.textContent = `Next: ${categoryLabels[nextKey].split(" (")[0]} →`;
     }
 
-    // Activate the first layout of the selected category
     if (matchingSteps.length) {
       activateLayout(matchingSteps[0].dataset.layout);
     }
   }
 
-  // Click or keyboard activate any visible step card to preview immediately
   steps.forEach((step) => {
     step.setAttribute("tabindex", "0");
     step.setAttribute("role", "button");
-    step.addEventListener("click", () => {
-      activateLayout(step.dataset.layout);
-    });
+    step.addEventListener("click", () => activateLayout(step.dataset.layout));
     step.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
@@ -238,16 +233,11 @@ function initUIStudio() {
     });
   });
 
-  // Category filter buttons
   catBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      selectCategory(btn.dataset.cat, true);
-    });
+    btn.addEventListener("click", () => selectCategory(btn.dataset.cat, true));
   });
 
-  bindTablistKeyboard(catBtns, (tab) => {
-    selectCategory(tab.dataset.cat, true);
-  });
+  bindTablistKeyboard(catBtns, (tab) => selectCategory(tab.dataset.cat, true));
 
   if (nextCatBtn) {
     nextCatBtn.addEventListener("click", () => {
@@ -256,7 +246,6 @@ function initUIStudio() {
     });
   }
 
-  // Default to Now Playing (4 options)
   selectCategory("nowplaying");
 }
 
@@ -297,26 +286,18 @@ function initFAQ() {
   }
 
   filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      applyFilter(btn.dataset.faqFilter);
-    });
+    btn.addEventListener("click", () => applyFilter(btn.dataset.faqFilter));
   });
 
-  bindTablistKeyboard(filterBtns, (tab) => {
-    applyFilter(tab.dataset.faqFilter);
-  });
+  bindTablistKeyboard(filterBtns, (tab) => applyFilter(tab.dataset.faqFilter));
 
-  items.forEach((item) => {
-    item.addEventListener("toggle", syncExpandBtnState);
-  });
+  items.forEach((item) => item.addEventListener("toggle", syncExpandBtnState));
 
   if (expandBtn) {
     expandBtn.addEventListener("click", () => {
       const visibleItems = items.filter((item) => !item.classList.contains("hidden-faq"));
       const shouldOpen = !visibleItems.every((item) => item.open);
-      visibleItems.forEach((item) => {
-        item.open = shouldOpen;
-      });
+      visibleItems.forEach((item) => { item.open = shouldOpen; });
       syncExpandBtnState();
     });
   }
@@ -334,16 +315,14 @@ function initCopyEmail() {
       await navigator.clipboard.writeText(SITE_CONFIG.SUPPORT_EMAIL);
       const original = copyBtn.textContent;
       copyBtn.textContent = "✓ Copied!";
-      setTimeout(() => {
-        copyBtn.textContent = original;
-      }, 2000);
+      setTimeout(() => { copyBtn.textContent = original; }, 2000);
     } catch (_) {
       window.location.href = `mailto:${SITE_CONFIG.SUPPORT_EMAIL}`;
     }
   });
 }
 
-/* 8. Viewport-Aware Video Playback, Reduced Motion & Lazy Media Handling */
+/* 8. Viewport-Aware Video Playback */
 function initVideoPlayback() {
   const videos = Array.from(document.querySelectorAll(".widget-video-wrap video"));
   if (!videos.length) return;
@@ -358,18 +337,14 @@ function initVideoPlayback() {
     });
   };
   syncReducedMotion(reducedMotionQuery.matches);
-  reducedMotionQuery.addEventListener("change", (event) => {
-    syncReducedMotion(event.matches);
-  });
+  reducedMotionQuery.addEventListener("change", (event) => syncReducedMotion(event.matches));
 
   if (reducedMotionQuery.matches || !("IntersectionObserver" in window)) return;
 
   const userPaused = new WeakSet();
   videos.forEach((video) => {
     video.addEventListener("pause", () => {
-      if (video.dataset.autoPaused !== "true") {
-        userPaused.add(video);
-      }
+      if (video.dataset.autoPaused !== "true") userPaused.add(video);
     });
     video.addEventListener("play", () => {
       userPaused.delete(video);
@@ -410,7 +385,7 @@ function init3DTilt() {
   targets.forEach((el) => {
     let rafId = null;
     let lastEvent = null;
-    const maxTilt = el.classList.contains("phone-frame") ? 5.5 : 3.2;
+    const maxTilt = el.classList.contains("phone-frame") ? 5.5 : 3;
 
     const applyTilt = () => {
       rafId = null;
@@ -431,9 +406,7 @@ function init3DTilt() {
 
     el.addEventListener("pointermove", (event) => {
       lastEvent = event;
-      if (rafId === null) {
-        rafId = requestAnimationFrame(applyTilt);
-      }
+      if (rafId === null) rafId = requestAnimationFrame(applyTilt);
     });
 
     el.addEventListener("pointerleave", () => {
@@ -448,23 +421,18 @@ function init3DTilt() {
   });
 }
 
-/* 10. Bidirectional Scroll-Driven Animations & IntersectionObserver Fallbacks */
+/* 10. Bidirectional 3D Scroll-Driven Choreography + Fallback */
 function initScrollAnimations() {
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReduced || !("IntersectionObserver" in window)) {
-    return;
-  }
+  if (prefersReduced || !("IntersectionObserver" in window)) return;
 
   const vh = window.innerHeight || document.documentElement.clientHeight;
   const supportsViewTimeline = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
   const supportsScrollTimeline = CSS.supports("(animation-timeline: scroll()) and (animation-range: 0% 100%)");
 
-  // A. One-shot reveal for FAQ / bottom CTA elements that should remain visible while reading
+  // A. One-shot reveal for FAQ / Support / CTA elements that stay permanently visible while reading
   const revealNodes = Array.from(document.querySelectorAll(".reveal-up"));
-  const revealMeasurements = revealNodes.map((el) => ({
-    el,
-    rect: el.getBoundingClientRect()
-  }));
+  const revealMeasurements = revealNodes.map((el) => ({ el, rect: el.getBoundingClientRect() }));
 
   const pendingNodes = [];
   revealMeasurements.forEach(({ el, rect }) => {
@@ -502,17 +470,15 @@ function initScrollAnimations() {
 
         visibleBatch.sort((a, b) => {
           const topDiff = a.boundingClientRect.top - b.boundingClientRect.top;
-          if (Math.abs(topDiff) > 24) return topDiff;
-          return a.boundingClientRect.left - b.boundingClientRect.left;
+          return Math.abs(topDiff) > 24 ? topDiff : a.boundingClientRect.left - b.boundingClientRect.left;
         });
 
         visibleBatch.forEach((entry, idx) => {
-          const staggerMs = Math.min(idx, 3) * 70;
-          revealElement(entry.target, staggerMs, true);
+          revealElement(entry.target, Math.min(idx, 3) * 65, true);
           revealObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.04, rootMargin: "0px 0px -28px 0px" }
+      { threshold: 0.04, rootMargin: "0px 0px -24px 0px" }
     );
 
     pendingNodes.forEach((el) => revealObserver.observe(el));
@@ -535,18 +501,14 @@ function initScrollAnimations() {
     window.addEventListener("scrollend", sweepVisibleAndPassed, { passive: true });
   }
 
-  // B. Bidirectional Reveal & Auto-Hide Fallback when native view() timelines are unsupported
+  // B. Bidirectional Reveal & 3D Device Pitch/Yaw Fallback when native view() is unsupported
   const stageNodes = Array.from(document.querySelectorAll(".scroll-stage"));
   const bannerNodes = Array.from(document.querySelectorAll(".chapter-banner h2, .chapter-banner p"));
 
   if (!supportsViewTimeline) {
     document.documentElement.classList.add("scroll-fallback-enabled");
 
-    const stageMeasurements = stageNodes.map((el) => ({
-      el,
-      rect: el.getBoundingClientRect()
-    }));
-
+    const stageMeasurements = stageNodes.map((el) => ({ el, rect: el.getBoundingClientRect() }));
     stageMeasurements.forEach(({ el, rect }) => {
       const inView = rect.top < vh * 0.94 && rect.bottom > vh * 0.06;
       el.classList.toggle("stage-visible", inView);
@@ -574,8 +536,7 @@ function initScrollAnimations() {
     if (bannerNodes.length) {
       bannerNodes.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        const inView = rect.top < vh * 0.94 && rect.bottom > vh * 0.06;
-        el.classList.toggle("banner-visible", inView);
+        el.classList.toggle("banner-visible", rect.top < vh * 0.94 && rect.bottom > vh * 0.06);
       });
 
       const bannerObserver = new IntersectionObserver(
@@ -590,18 +551,15 @@ function initScrollAnimations() {
     }
   }
 
-  // Anchor jump support: ensure target sections & predecessors reveal cleanly
+  // Anchor jump safety
   const revealAtAnchor = (hash) => {
     if (!hash || hash === "#") return;
     const target = document.getElementById(hash.slice(1));
     if (!target) return;
 
-    target.querySelectorAll(".reveal-pending").forEach((el) => {
-      revealElement(el, 0, false);
-    });
-    if (target.classList.contains("reveal-pending")) {
-      revealElement(target, 0, false);
-    }
+    target.querySelectorAll(".reveal-pending").forEach((el) => revealElement(el, 0, false));
+    if (target.classList.contains("reveal-pending")) revealElement(target, 0, false);
+
     if (!supportsViewTimeline) {
       target.querySelectorAll(".scroll-stage").forEach((el) => {
         el.classList.add("stage-visible");
@@ -611,34 +569,25 @@ function initScrollAnimations() {
 
     const targetTop = target.getBoundingClientRect().top + window.scrollY;
     const remaining = pendingNodes.filter((el) => el.classList.contains("reveal-pending"));
-    const positions = remaining.map((el) => ({
-      el,
-      top: el.getBoundingClientRect().top + window.scrollY
-    }));
-    positions.forEach(({ el, top }) => {
-      if (top <= targetTop + (window.innerHeight || 900)) {
-        revealElement(el, 0, false);
-      }
-    });
+    remaining
+      .map((el) => ({ el, top: el.getBoundingClientRect().top + window.scrollY }))
+      .forEach(({ el, top }) => {
+        if (top <= targetTop + (window.innerHeight || 900)) revealElement(el, 0, false);
+      });
   };
 
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", () => {
-      revealAtAnchor(anchor.getAttribute("href"));
-    });
+    anchor.addEventListener("click", () => revealAtAnchor(anchor.getAttribute("href")));
   });
+  window.addEventListener("hashchange", () => revealAtAnchor(window.location.hash));
 
-  window.addEventListener("hashchange", () => {
-    revealAtAnchor(window.location.hash);
-  });
-
-  // C. Fallback for browsers without native scroll() timelines (Hero Parallax + Progress Bar)
+  // C. Fallback for browsers without native scroll() timelines (Hero 3D Fan + Progress Bar)
   if (!supportsScrollTimeline) {
     const hero = document.querySelector(".hero");
     const heroCopy = document.querySelector(".hero-copy");
-    const phones = Array.from(document.querySelectorAll(".hero-phone"));
+    const slots = Array.from(document.querySelectorAll(".hero-phone-slot"));
     const progressBar = document.querySelector(".scroll-progress-bar");
-    const desktopMq = window.matchMedia("(min-width: 761px)");
+    const desktopMq = window.matchMedia("(min-width: 681px)");
     let rafPending = false;
 
     const updateScrollFallback = () => {
@@ -652,27 +601,28 @@ function initScrollAnimations() {
       }
 
       if (hero && scrollY < hero.offsetHeight + 120) {
-        const p = Math.min(1, Math.max(0, scrollY / 640));
+        const p = Math.min(1, Math.max(0, (scrollY - 30) / 600));
         if (heroCopy) {
           heroCopy.style.opacity = String(Math.max(0, 1 - p * 1.15).toFixed(3));
-          heroCopy.style.translate = `0px ${(-38 * p).toFixed(1)}px`;
+          heroCopy.style.transform = `perspective(1200px) translate3d(0px, ${(-48 * p).toFixed(1)}px, ${(-70 * p).toFixed(1)}px) rotateX(${(10 * p).toFixed(1)}deg) scale(${(1 - 0.08 * p).toFixed(3)})`;
         }
         if (desktopMq.matches) {
-          phones.forEach((phone) => {
-            const isOuter = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-outer-right");
-            const isLeft = phone.classList.contains("hero-phone-outer-left") || phone.classList.contains("hero-phone-inner-left");
-            const restY = isOuter ? 22 : 0;
-            const endY = isOuter ? -44 : -22;
-            const endX = (isOuter ? 26 : 8) * (isLeft ? -1 : 1);
-            const y = restY + (endY - restY) * p;
-            const x = endX * p;
-            phone.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
-            phone.style.opacity = String(Math.max(0.15, 1 - p * 0.85).toFixed(3));
+          slots.forEach((slot) => {
+            const isOuter = slot.classList.contains("hero-slot-outer-left") || slot.classList.contains("hero-slot-outer-right");
+            const isLeft = slot.classList.contains("hero-slot-outer-left") || slot.classList.contains("hero-slot-inner-left");
+            const x = (isOuter ? 54 : 16) * (isLeft ? -1 : 1) * p;
+            const y = (isOuter ? -64 : -34) * p;
+            const tz = (isOuter ? -110 : -36) * p;
+            const ry = (isOuter ? 28 : 12) * (isLeft ? 1 : -1) * p;
+            const rx = (isOuter ? 13 : 9) * p;
+            const sc = 1 - 0.16 * p;
+            slot.style.transform = `perspective(1600px) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${tz.toFixed(1)}px) rotateX(${rx.toFixed(1)}deg) rotateY(${ry.toFixed(1)}deg) scale(${sc.toFixed(3)})`;
+            slot.style.opacity = String(Math.max(0.12, 1 - p * 0.88).toFixed(3));
           });
         } else {
-          phones.forEach((phone) => {
-            phone.style.translate = "";
-            phone.style.opacity = "";
+          slots.forEach((slot) => {
+            slot.style.transform = "";
+            slot.style.opacity = "";
           });
         }
       }

@@ -8,8 +8,9 @@
   <meta name="keywords" content="OffGrid Music FAQ, download OffGrid Music APK, install APK unknown sources Android, File might be harmful APK safe, Google Play Protect OffGrid Music">
   <meta name="author" content="Paul00755">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="theme-color" content="#05060a" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#060709" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="https://offgrid-music-web.pages.dev/faq.html">
   <link rel="icon" type="image/png" href="assets/brand/favicon.png">
   <link rel="apple-touch-icon" href="assets/brand/logo.png">
@@ -36,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261127r2">
 
   <!-- Structured Data: WebPage + Complete 16-Question FAQPage -->
   <script type="application/ld+json">
@@ -266,19 +267,16 @@
 
     <!-- FAQ Page Header -->
     <section class="faq-page-hero">
-      <div class="hero-glow" aria-hidden="true"></div>
-      <div class="container" style="position: relative; z-index: 1;">
+      <div class="container faq-hero-inner">
         <div class="faq-page-actions">
-          <a href="index.html" class="btn btn-ghost">← Back to Home</a>
-          <span class="hero-badge" style="margin-bottom: 0;">
-            <span class="dot" aria-hidden="true"></span>
-            <span data-apk-version>Android 7.0+</span>
-            <span>·</span>
-            <span>Help &amp; APK Install Guide</span>
-          </span>
+          <a href="index.html" class="faq-back-link">← Back to Overview</a>
+          <span class="faq-version-tag mono" data-apk-version>Android 7.0+</span>
         </div>
-        <h1 class="faq-page-title">FAQ? <span class="grad-text">Frequently Asked Questions</span></h1>
-        <p class="faq-page-sub">Check this to find quick answers you might be looking for — starting with step-by-step APK download, unknown sources setup, and Play Protect verification.</p>
+        <h1 class="faq-page-title">
+          <span class="faq-page-kicker">FAQ?</span>
+          <span class="faq-page-heading">Frequently Asked Questions</span>
+        </h1>
+        <p class="faq-page-sub">Check this to find quick answers you might be looking for — how to download &amp; install the APK, enable unknown sources, and verify Play Protect safety.</p>
       </div>
     </section>
 
@@ -304,11 +302,11 @@
 
         <div class="faq-list">
 
-          <!-- PRIORITY #1: Step-by-step APK Download & Install Workflow -->
-          <details class="faq-item faq-priority" data-faq-cat="install" open>
+          <!-- Step-by-step APK Download & Install Workflow -->
+          <details class="faq-item faq-featured" data-faq-cat="install" open>
             <summary>
               <div class="faq-q-wrap">
-                <span class="faq-cat-label">Priority · Download &amp; Install Guide</span>
+                <span class="faq-cat-label">Download &amp; Install Guide</span>
                 <span class="faq-q-text">How do I download and install the OffGrid Music APK on Android?</span>
               </div>
             </summary>
@@ -330,11 +328,11 @@
             </div>
           </details>
 
-          <!-- PRIORITY #2: Browser "File might be harmful" + Play Protect Scan Pass Images -->
-          <details class="faq-item faq-priority" data-faq-cat="install" open>
+          <!-- Browser "File might be harmful" + Play Protect Scan Pass Images -->
+          <details class="faq-item faq-featured" data-faq-cat="install" open>
             <summary>
               <div class="faq-q-wrap">
-                <span class="faq-cat-label">Priority · Download &amp; Safety Proof</span>
+                <span class="faq-cat-label">Download &amp; Safety Proof</span>
                 <span class="faq-q-text">My browser says "File might be harmful" — is OffGrid Music really safe to download?</span>
               </div>
             </summary>
@@ -356,7 +354,7 @@
             </div>
           </details>
 
-          <!-- PRIORITY #3: Open-source Play Store question -->
+          <!-- Open-source Play Store question -->
           <details class="faq-item" data-faq-cat="install">
             <summary>
               <div class="faq-q-wrap">
@@ -539,6 +537,6 @@
     </div>
   </footer>
 
-  <script src="js/app.js" defer></script>
+  <script src="js/app.js?v=20261127r2" defer></script>
 </body>
 </html>
